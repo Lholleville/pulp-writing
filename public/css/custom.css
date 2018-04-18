@@ -1,0 +1,205 @@
+.circle-red{
+    background-color : #c1392d;
+    border : 1px solid #91392d;
+    border-radius: 25px;
+    color : white;
+    width: 30px;
+    height : 30px;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.circle-blue{
+    background-color: #34495e;
+    border : 1px solid #244a60;
+    border-radius: 25px;
+    color : white;
+    width: 30px;
+    height : 30px;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.circle-green{
+    background-color: #27AE61;
+    border : 1px solid #239954;
+    border-radius: 25px;
+    color : white;
+    width: 30px;
+    height : 30px;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.link-collection:hover, .link-collection{
+    color : black;
+}
+
+.tr-hover, #like i{
+    cursor : pointer;
+}
+
+.tr-hover a{
+    color : black !important;
+    text-decoration: none !important;
+
+}
+
+.tr-hover:hover, .tr-hover:hover a{
+    color : white !important;
+    background-color : #2F607C;
+    text-decoration: none !important;
+
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+    perspective: 1000px;
+}
+/* flip the pane when hovered */
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+    width: 320px;
+    height: 546px;
+}
+
+/* flip speed goes here */
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+    background-color: #e84c3c;
+    z-index: 2;
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+    background-color: #34495e;
+    transform: rotateY(180deg);
+}
+.info-book, .info-general{
+
+    padding : 3%;
+    text-align: justify;
+}
+
+.info-general{
+    color : black;
+}
+
+.info-book{
+    color : white;
+}
+
+.brocoli + .no-result{
+    display : none;
+}
+
+.no-result{
+    color : dimgrey;
+    margin-top : 15%;
+    margin-bottom : 15%;
+}
+
+@media( max-width : 839px){
+    .large-screen{
+        display : none;
+    }
+}@media( min-width : 840px){
+    .small-screen{
+        display : none;
+    }
+}
+
+.library{
+    margin-bottom : 5%;
+}
+
+
+.library h2{
+    font-size: 90%;
+}
+
+.library h3{
+    font-size: 75%;
+}
+
+.background-pomegranate{
+    background-color: #e84c3c;
+    padding : 2%;
+    max-width: 400px;
+}
+
+.blue{
+    color : #244a60 !important;
+}
+
+.pomegranate{
+    color : #e84c3c !important;
+}
+
+.title-book{
+    color : white;
+    text-transform: uppercase;
+    padding-top :5%;
+}
+.title-book-small{
+    color : black;
+    padding-top :5%;
+}
+
+.background-pomegranate-prez{
+    background-color: #e84c3c;
+    height: 100%;
+}
+
+.background-bluecobalt-prez{
+    background-color: #34495e;
+    height: 100%;
+}
+
+.summary{
+    vertical-align: middle;
+    padding : 1%;
+    text-align: justify;
+}
+.author-book{
+    color : white;
+    font-family: arduilanar;
+}
+.author-book-small{
+    color : black;
+    font-family: arduilanar;
+}
+
+.img-collec{
+    height : 400px;
+    width : 1200px;
+    max-width : 100%;
+    max-height : 50%;
+}
+
+.img-mini-collec{
+    max-width : 40%;
+    height : auto;
+}
