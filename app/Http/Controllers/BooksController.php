@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Annotation;
 use App\Book;
+use App\Collec;
 use App\Genre;
 use App\Http\Requests\BooksRequest;
 use App\Statut;
@@ -54,7 +55,7 @@ class BooksController extends Controller
 
         $data = $request->all();
         $data['user_id'] = $auth->user()->id;
-        $data['collec_id'] = 1;
+        $data['collec_id'] = Collec::where('primary', 1)->first()->id;
         Book::create($data);
         return redirect(action('AteliersController@index'))->with('success', 'Nouvelle oeuvre crée.');
 

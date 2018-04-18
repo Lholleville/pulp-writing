@@ -45,4 +45,12 @@ class Collec extends Model
     {
         return ($avatar) ? "/img/collections/{$this->id}{$this->extension}" : "/img/collections/default-collection.jpg";
     }
+
+    public function getPrimaryAttribute($primary){
+        return ($primary == "1") ? true : false;
+    }
+
+    public function isPrimary(){
+        return ($this->attributes['primary'] == "1") ? true : false;
+    }
 }

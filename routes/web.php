@@ -37,6 +37,7 @@ Route::get('admin/signalements/abused/{id}', ['uses' => 'SignalsController@abuse
 
 
 Route::resource('moderation', 'ModerationsController');
+Route::get('moderation/{slug}/reemigrate', ['uses' => 'ModerationsController@reemigrate']);
 
 Route::get('collections', ['uses' => 'CollecsController@normalIndex']);
 Route::get('collections/{slug}', ['uses' => 'CollecsController@normalShow']);
