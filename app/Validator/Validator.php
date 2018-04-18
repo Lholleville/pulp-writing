@@ -11,6 +11,7 @@ namespace App\Validator;
 
 use App\Book;
 use App\Chapter;
+use App\Collec;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,4 +46,17 @@ class Validator extends \Illuminate\Validation\Validator
         }
     }
 
+    public function validatePrimaryCREATE($attribute, $value, $parameters){
+
+        $collections = Collec::where('primary', $value)->get();
+        if($value == "on" && $collections->isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function validatePrimaryUPDATE($attribute, $value, $parameters){
+        return true;
+    }
 }

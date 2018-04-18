@@ -28,10 +28,15 @@ class CollecsRequest extends FormRequest
             'description' => 'min:2',
             'avatar' => 'image',
             'online' => 'boolean',
-            'role_id' => 'required|exists:users,id'
+            'role_id' => 'required|exists:users,id',
+            'primary' => '',
         ];
+
         if($this->method() == "POST"){
             $rules['name'] .= "|unique:collecs";
+            $rules['primary'] .= "primaryCREATE";
+        }else{
+            $rules['primary'] .= "primaryUPDATE";
         }
         return $rules;
     }
@@ -39,6 +44,7 @@ class CollecsRequest extends FormRequest
     public function messages(){
         return [
             'role_id' => 'L\'utilisateur n\'existe pas.',
+            'primary' => 'Il ne peut y avoir qu\'une seule collection - 0 ; Pour y remédier, enlevez l\'attribut "collection 0" à la collection 0 actuelle.',
         ];
     }
 }

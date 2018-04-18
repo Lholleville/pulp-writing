@@ -59,6 +59,14 @@
     </div>
 </div>
 <div class="form-group">
+    <label for="primary" class="col-sm-2 control-label">
+        Collection 0 ?
+    </label>
+    <div class="col-sm-10">
+        {!! Form::checkbox('primary', null, null, ['id' => 'primary']) !!}
+    </div>
+</div>
+<div class="form-group">
     <label for="role" class="col-sm-2 control-label">Modérateurs de la collection</label>
     <div class="col-sm-10">
         {!! Form::select('role_id[]', $modos, $collection->users()->pluck('id', 'name'), ['class' => 'form-control', 'id' => 'role', 'multiple']) !!}
