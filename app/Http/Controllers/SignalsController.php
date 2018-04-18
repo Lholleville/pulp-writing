@@ -18,12 +18,17 @@ class SignalsController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin', ['except' => ['store', 'show']]);
+        $this->middleware('admin', ['except' => ['store', 'show', 'approved', 'ignored', 'abused']]);
+        $this->middleware('modo', ['only' => ['approved', 'ignored', 'abused']]);
     }
 
-    public function getResource($id){
-        return Comment::where('slug',$id)->first();
+    public function getResourceModo($id){
+        $signal = Signal::where('id',$id)->first();
+        $comment = $signal->comments;
+        return $comment;
     }
+
+
 
     public function index()
     {
@@ -116,8 +121,8 @@ class SignalsController extends Controller {
         //
     }
 
-    public function approved($id){
-        $signal = Signal::findOrFail($id);
+    public function approved($comment){
+        $signal = Signal::where('comment_id', $comment->id)->first();
         $signal->validated = 1;
         $guilt = User::findOrFail($signal->guilt_id);
         $type = Motifsignal::findOrFail($signal->type);
@@ -130,15 +135,15 @@ class SignalsController extends Controller {
         return redirect()->back()->with('success', 'Utilisateur sanctionné.');
     }
 
-    public function ignored($id){
-        $signal = Signal::findOrFail($id);
+    public function ignored($comment){
+        $signal = Signal::where('comment_id', $comment->id)->first();
         $signal->validated = 2;
         $signal->save();
         return redirect()->back()->with('success', 'Plainte ignorée.');
     }
 
-    public function abused($id){
-        $signal = Signal::findOrFail($id);
+    public function abused($comment){
+        $signal = Signal::where('comment_id', $comment->id)->first();
         $moaner = User::findOrFail($signal->user_id);
         $type = Motifsignal::findOrFail($signal->type);
         $signal->validated = 3;

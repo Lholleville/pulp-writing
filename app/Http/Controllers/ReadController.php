@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Annotation;
 use App\Book;
 use App\Chapter;
+use App\Collec;
 use App\Comment;
 use App\Motif;
 use App\Note;
@@ -24,8 +25,9 @@ class ReadController extends Controller
 
     public function show($slugcollection, $slug){
         $readmode = true;
+        $collections = Collec::all();
         $book = Book::where('slug', $slug)->first();
-        return view('books.show', compact('book', 'readmode'));
+        return view('books.show', compact('book', 'readmode', 'collections'));
     }
 
     public function showChapter($slugcollection, $slugbook, $order, $slug, Guard $auth){

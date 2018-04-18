@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Collec;
+use App\Signal;
 use Illuminate\Http\Request;
 
 class ModerationsController extends Controller
@@ -20,7 +21,8 @@ class ModerationsController extends Controller
     public function show($slug){
         $collections = Collec::All();
         $collection = Collec::where('slug', $slug)->first();
-        return view('moderation.show', compact('collection', 'collections'));
+        $signals = Signal::all();
+        return view('moderation.show', compact('collection', 'collections', 'signals'));
     }
 
     public function update($slug, Request $request){

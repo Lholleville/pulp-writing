@@ -19,6 +19,7 @@
                         <label for="content" class="col-sm-12">
                             Veuillez choisir un motif
                         </label>
+
                         <div class="col-sm-12">
                             <select name="type" id="selectMotif" class="form-control">
                                 <option value="/">Veuillez choisir un motif</option>
@@ -32,6 +33,19 @@
                                     </optgroup>
                                 @endforeach
                             </select>
+                            <script>
+                                $('#selectMotif').change(function() {
+                                    var str = "";
+                                    $( "#selectMotif option:selected + option" ).each(function() {
+                                        str += $( this ).text() + " ";
+                                    });
+                                    $( "#description" ).text( str );
+                                }).trigger("change");
+                            </script>
+                            <br>
+                            <div class="col-sm-12" id="description">
+
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

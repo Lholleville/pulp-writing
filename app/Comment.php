@@ -18,6 +18,10 @@ class Comment extends Model
         return $this->belongsTo('App\Chapter', 'chapter_id');
     }
 
+    public function getCollectionAttribute(){
+        return $this->chapters->books->collections;
+    }
+
     public function canEdit($user){
         if($user){
             if($user->id === $this->users->id){
@@ -27,5 +31,9 @@ class Comment extends Model
             }
         }
         return false;
+    }
+
+    public function isSignaled(){
+
     }
 }

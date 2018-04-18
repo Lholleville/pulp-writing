@@ -9,6 +9,14 @@ class Signal extends Model {
 
     use DateTransform;
 
+    public function motifsignals(){
+        return $this->belongsTo('App\Motifsignal', 'type');
+    }
+
+    public function comments(){
+        return $this->belongsTo('App\Comment', 'comment_id');
+    }
+
     //get the name of those who signaled the message
     public function getMoanerAttribute(){
         $moaner = User::findOrFail($this->attributes['user_id']);
@@ -39,5 +47,9 @@ class Signal extends Model {
         }else{
             return $type->importance;
         }
+    }
+
+    public function belongsToCollection($collection){
+        return $this->comments->chapters->books->collections->id == $collection->id;
     }
 }
