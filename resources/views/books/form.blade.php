@@ -1,4 +1,4 @@
-{!! Form::model($book, ['class' => 'form-horizontal', 'url' => action("BooksController@$action", $book), 'method' => $action == 'store' ? 'POST' : 'PUT', 'files' => true ]) !!}
+{!! Form::model($book, ['class' => 'form-horizontal', 'url' => action("BooksController@$action", $book), 'method' => $action == 'store' ? 'POST' : 'PUT', 'files' => true]) !!}
 <div class="form-group">
     <label for="name" class="col-sm-2 control-label">Titre du texte</label>
     <div class="col-sm-10">
@@ -57,7 +57,35 @@
     </div>
 </div>
 
+<div class="form-group">
+    <label for="tags" class="col-sm-2 control-label">Tags</label>
+    <div class="col-sm-10">
+        {!! Form::select('tag_id[]', $tags->pluck('name', 'id'), $book->tags->pluck('name', 'id'), ['multiple', 'class' => 'form-control', 'id' => 'tags'] ) !!}
+    </div>
+</div>
+<div class="form-group">
+    <label for="tag" class="col-sm-offset-2 col-sm-10 pull-left">Vous ne trouvez pas le tag que vous voulez ? Créez en un nouveau puis appuyez sur espace, il se trouvera dans la liste ci-dessus</label>
+    <div class="col-sm-offset-2 col-sm-10">
+        {!! Form::text('', null, ['class' => 'form-control', 'id' => 'tag'] ) !!}
+    </div>
+</div>
+<script>
+    $('#tag').keydown(function(e) {
+        if(e.which == "32")
+        {
+            var tag = $(this).val();
+            if(tag.length > "2"){
+                var lasopt = $('#tags option:last-child').val();
+                lasopt = parseInt(lasopt) + 1;
+                var option = '<option value="'+tag+'">'+tag+'</option>';
+                $('#tags').append(option);
+                $(this).val("");
+            }
 
+
+        }
+    });
+</script>
 <div class="form-group">
     <label for="online" class="col-sm-2 control-label">
         En ligne ?

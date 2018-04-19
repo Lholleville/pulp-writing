@@ -8,6 +8,7 @@ use App\Collec;
 use App\Genre;
 use App\Http\Requests\BooksRequest;
 use App\Statut;
+use App\Tag;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,16 +31,18 @@ class BooksController extends Controller
 
     public function show($slug){
         $book = Book::where('slug', $slug)->first();
-        return view('books.show', compact('book'));
+        $collections = Collec::all();
+        return view('books.show', compact('book', 'collections'));
     }
 
     public function create(Guard $auth){
         $book = new Book();
         $all_genres = Genre::all()->pluck('name', 'id');
         $all_statuts = Statut::all()->pluck('name', 'id');
+        $tags = Tag::all();
         $my_books = $auth->user()->books->pluck('name', 'id');
         $my_books[0] = 'Non';
-        return view('books.create', compact('book', 'all_genres', 'all_statuts', 'my_books'));
+        return view('books.create', compact('book', 'all_genres', 'all_statuts', 'my_books', 'tags'));
 
     }
 
@@ -48,7 +51,9 @@ class BooksController extends Controller
         $all_statuts = Statut::all()->pluck('name', 'id');
         $my_books = $auth->user()->books->where('id', '<>', $book->id)->pluck('name', 'id');
         $my_books[0] = 'Non';
-        return view('books.edit', compact('book', 'all_genres', 'all_statuts', 'my_books'));
+        $tags = Tag::all();
+
+        return view('books.edit', compact('book', 'all_genres', 'all_statuts', 'my_books', 'tags'));
     }
 
     public function store(BooksRequest $request, Guard $auth){
@@ -62,9 +67,10 @@ class BooksController extends Controller
     }
 
     public function update($book, BooksRequest $request, Guard $auth){
-        $data = $request->all();
+        $data = $request->except(['tag_id']);
         $data['user_id'] = $auth->user()->id;
         $book->update($data);
+        $book->tags()->sync($request->get('tag_id'));
         return redirect(action('BooksController@show', $book))->with('success', 'l\'oeuvre "'.$book->name.'" a bien été modifiée');
 
     }

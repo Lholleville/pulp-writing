@@ -48,6 +48,9 @@ class Book extends Model
         return $this->BelongsTo('App\Collec', 'collec_id');
     }
 
+    public function tags(){
+        return $this->BelongsToMany('App\Tag');
+    }
     public function getNbCommentsAttribute(){
         return null;
     }
