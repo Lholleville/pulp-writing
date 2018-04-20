@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -42,6 +41,12 @@
             @if($book->parent_id != 0)
                 <p>Cette oeuvre est la suite de {{$book->parent}}</p>
             @endif
+            <h3>tags</h3>
+            <ul class="tags">
+                @foreach($book->tags as $tag)
+                    <li><a href="{{ action('TagsController@show', $tag) }}" class="tag">{{$tag->name}}</a></li>
+                @endforeach
+            </ul>
             <p>Ce livre appartient à la collection : {{$book->collections->name}}</p>
             <p>{{ $book->NbComments }}</p>
             <p>{{ $book->views }}</p>

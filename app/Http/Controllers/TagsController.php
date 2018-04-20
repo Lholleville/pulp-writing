@@ -10,6 +10,8 @@ class TagsController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth');
+        $this->middleware('tags', ['only' => ['show']]);
         $this->middleware('admin', ['except' => ['show', 'create', 'store']]);
     }
 
@@ -18,11 +20,9 @@ class TagsController extends Controller
     }
 
     public function index(){
-
-    }
-
-    public function show($slug){
-
+        $tags = Tag::where('online', true)->orderBy('created_at')->get();
+        $tags_not_online = Tag::where('online', false)->get();
+        return view('tags.index', compact('tags', 'tags_not_online'));
     }
 
     public function edit($slug){
@@ -33,6 +33,11 @@ class TagsController extends Controller
 
     }
 
+    public function show($tag){
+
+        return view('tags.show', compact('tag'));
+    }
+
     public function update(TagsRequest $request, $slug){
 
     }
@@ -41,7 +46,17 @@ class TagsController extends Controller
 
     }
 
-    public function destroy($slug){
+    public function destroy($tag){
 
+    }
+
+    public function restore($slug){
+        $tag = Tag::where('slug', $slug)->first();
+        $tag->online = !$tag->online;
+        if(!$tag->online){
+            $tag->books()->detach();
+        }
+        $tag->save();
+        return redirect()->back()->with('success', 'Le statut du tag a été modifié');
     }
 }

@@ -17,4 +17,12 @@ class Tag extends Model
         return 'slug';
     }
 
+    public function users(){
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function books(){
+        return $this->belongsToMany('App\Book');
+    }
+
 }

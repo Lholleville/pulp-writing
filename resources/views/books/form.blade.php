@@ -60,7 +60,7 @@
 <div class="form-group">
     <label for="tags" class="col-sm-2 control-label">Tags</label>
     <div class="col-sm-10">
-        {!! Form::select('tag_id[]', $tags->pluck('name', 'id'), $book->tags->pluck('name', 'id'), ['multiple', 'class' => 'form-control', 'id' => 'tags'] ) !!}
+        {!! Form::select('tag_id[]', $tags->pluck('name', 'id'), $book->tags()->pluck('id', 'name'), ['multiple', 'class' => 'form-control', 'id' => 'tags'] ) !!}
     </div>
 </div>
 <div class="form-group">
@@ -73,18 +73,36 @@
     $('#tag').keydown(function(e) {
         if(e.which == "32")
         {
+            var indicator = true;
             var tag = $(this).val();
             if(tag.length > "2"){
                 var lasopt = $('#tags option:last-child').val();
                 lasopt = parseInt(lasopt) + 1;
                 var option = '<option value="'+tag+'">'+tag+'</option>';
-                $('#tags').append(option);
+                var tab = [];
+
+
+                $('#tags option').each(function(elem){
+                    tab.push($(this).text());
+                });
+
+                tab.forEach(function(elem){
+                    console.log('tag = ' + tag + ' | elem = ' + elem + ' | tagmaj = ' + capitalizeFirstLetter(tag));
+                    if(tag == elem || capitalizeFirstLetter(tag) == elem){
+                        indicator = false;
+                    }
+                });
+                if(indicator){
+                    $('#tags').append(option);
+                }
                 $(this).val("");
             }
-
-
         }
     });
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 </script>
 <div class="form-group">
     <label for="online" class="col-sm-2 control-label">
