@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Badge\Badge;
+use Badge\Badgeable;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +13,7 @@ use Intervention\Image\ImageManagerStatic;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use Badgeable;
     /**
      * The attributes that are mass assignable.
      *
