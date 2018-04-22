@@ -22,7 +22,6 @@ class BadgeSubscriber {
             $girl_count = $user->girls()->count();
 
             $this->badge->unlockActionFor($user, 'addzouz', $girl_count);
-
         }
 
         public function onFiveZouz(\App\Girl $girl){
