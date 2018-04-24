@@ -27,6 +27,10 @@ class Collec extends Model
         return $this->HasMany('App\Book', "collec_id")->where('online', true);
     }
 
+    public function forums(){
+        return $this->hasOne('App\Forum');
+    }
+
     public function getNbTxtAttribute(){
         return $this->HasMany('App\Book', "collec_id")->where('online', true)->count();
     }
@@ -53,4 +57,5 @@ class Collec extends Model
     public function isPrimary(){
         return ($this->attributes['primary'] == "1") ? true : false;
     }
+
 }

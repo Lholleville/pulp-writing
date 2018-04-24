@@ -52,7 +52,13 @@ class Book extends Model
         return $this->BelongsToMany('App\Tag');
     }
     public function getNbCommentsAttribute(){
-        return null;
+        $count = DB::table('comments')
+            ->select(DB::raw('count(comments.id) as comments_count'))
+            ->join('chapters', 'chapter_id', '=', 'chapters.id')
+            ->join('books', 'book_id', '=', 'books.id')
+            ->where('book_id', $this->id)
+            ->get();
+        return $count->get(0)->comments_count;
     }
 
     public function getViewsAttribute(){

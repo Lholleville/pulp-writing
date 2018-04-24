@@ -20,7 +20,7 @@
                 <td>
                     <a href="{{action('CollecsController@show', $collection)}}"><span class="circle-green glyphicon glyphicon-eye-open"></span></a>
                     <a href="{{action('CollecsController@edit', $collection)}}"><span class="circle-blue glyphicon glyphicon-wrench"></span></a>
-                    <a href="{{action('CollecsController@destroy', $collection)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le genre ?"><span class="circle-red glyphicon glyphicon-trash"></span></a>
+                    <a href="{{action('CollecsController@destroy', $collection)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer la collection {{ $collection->name }} ?"><span class="circle-red glyphicon glyphicon-trash"></span></a>
                 </td>
             </tr>
         @endforeach

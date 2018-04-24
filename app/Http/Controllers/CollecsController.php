@@ -50,9 +50,9 @@ class CollecsController extends Controller
     }
     public function store(CollecsRequest $request)
     {
-        $collection = new Collec();
-        $collection->create($request->only(['name', 'slug', 'description', 'avatar', 'online', 'updated_at', 'created_at']));
-        $collection->users()->sync($request->only(['role_id[]']));
+        $data = $request->except(['role_id']);
+        $collection = Collec::create($data);
+        $collection->users()->sync($request->get('role_id'));
         return redirect(action('CollecsController@index'))->with('success', 'La collection a été crée avec succès.');
     }
     public function update(CollecsRequest $request, $slug)
@@ -70,6 +70,7 @@ class CollecsController extends Controller
     public function destroy($slug)
     {
         $collection = Collec::where('slug', $slug)->first();
+        $collection->users()->detach();
         $collection->delete();
         return redirect(action('CollecsController@index'))->with('warning', 'La collection a bien été supprimée');
 

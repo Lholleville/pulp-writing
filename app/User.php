@@ -39,6 +39,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Chapter')->withPivot(['has_read', 'liked']);
     }
 
+    public function forums(){
+        return $this->belongsToMany('App\Forum');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -191,4 +195,13 @@ class User extends Authenticatable
             return true;
         }
     }
+
+    public function isForumModo($forum){
+        if($this->forums->count() > 0){
+            if($this->forums->contains($forum->id)){
+                return true;
+            }
+        }
+    }
+
 }

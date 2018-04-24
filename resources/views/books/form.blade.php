@@ -51,7 +51,7 @@
         </script>
     </div>
 <div class="form-group">
-    <label for="" class="col-sm-2 control-label">Résumé</label>
+    <label for="summary" class="col-sm-2 control-label">Résumé</label>
     <div class="col-sm-10">
         {!! Form::textarea('summary', null, ['class' => 'form-control', 'id' => 'summary']) !!}
     </div>
@@ -119,11 +119,12 @@
     </div>
 </div>
 <div class="form-group">
-    <label for="statut" class="col-sm-2 control-label">Ce texte est il la suite d'un des textes suivants ?</label>
+    <label for="statut" class="col-sm-2 control-label">Ce texte est-il la suite d'un des textes suivants ?</label>
     <div class="col-sm-10">
         {!! Form::select('parent_id', $my_books, null, ['class' => 'form-control'])  !!}
     </div>
 </div>
+
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-2">
         <button type="submit" class="btn btn-primary"><?= ($action == 'store') ? 'Créer' : 'Modifier'?></button>

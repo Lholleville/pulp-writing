@@ -262,3 +262,7 @@
 .tag:hover::after {
     border-left-color: crimson;
 }
+
+.forum-description {
+    background-color : #00A6C7;
+}

@@ -64,6 +64,7 @@ class BooksController extends Controller
         $listnewids = self::addTags($request->get('tag_id'), $auth);
         $data = $request->except(['tag_id']);
         $data['user_id'] = $auth->user()->id;
+        //set default collection
         $data['collec_id'] = Collec::where('primary', 1)->first()->id;
         $book = Book::create($data);
         $book->tags()->sync($listnewids);

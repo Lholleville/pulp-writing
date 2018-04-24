@@ -21,7 +21,7 @@
             <h2>Espaces</h2>
             <ul>
                 <li><a href="{{action('CollecsController@index')}}">Collections</a></li>
-                <li><a href="">Forums</a></li>
+                <li><a href="{{url('admin/forums')}}">Forums</a></li>
             </ul>
         </div>
     </div>

@@ -14,6 +14,7 @@ $('.form-datepicker-birthday').datepicker({
     format : 'dd/mm/yyyy',
     weekStart : 1
 });
+$('#modos').hide();
 
 
 $('#avatar').onchange = function (e) {
