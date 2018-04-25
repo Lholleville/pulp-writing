@@ -14,8 +14,9 @@ class TopicsController extends Controller
         $this->middleware('owner', ['except' => ['show', 'create', 'store']]);
     }
 
-    public function getResource($slug){
-        return Topic::where('slug', $slug)->first();
+    public function getResource($slug, $slugtopic){
+        $topic = Topic::where('slug', $slugtopic)->first();
+        return $topic;
     }
 
     public function index(){
@@ -41,7 +42,7 @@ class TopicsController extends Controller
 
     public function show($slug){
         $topic = Topic::where('slug', $slug)->first();
-        return view('topics.show', compact('show'));
+        return view('topics.show', compact('topic'));
     }
 
     public function edit($topic){

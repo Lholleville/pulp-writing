@@ -35,14 +35,18 @@ class Forum extends Model
         return $this->topics()->where('pinned', true);
     }
 
+    public function listTopicPinned(){
+        return $this->topics()->where('pinned', true)->orderBy('created_at', 'desc')->get();
+    }
+
     public function listTopic(){
         if(!Auth::guest()){
             if(Auth::user()->roles->name == "admin" || Auth::user()->isForumModo($this)){
-                return $this->topics;
+                return $this->topics()->where('pinned', false)->orderBy('created_at', 'desc')->get();
             }
         }
 
-        return $this->topics()->where('online', true);
+        return $this->topics()->where('online', true)->where('pinned', false)->orderBy('created_at', 'desc');
     }
 
     public function offlineTopic(){
@@ -54,10 +58,6 @@ class Forum extends Model
     }
 
     public function hasCollec(){
-        return $this->collections->count() > 0;
+        return $this->collections != null;
     }
-
-
-
-
 }

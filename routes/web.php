@@ -16,6 +16,7 @@ Route::get('/', ['uses' => 'HomeController@index']);
 
 Route::resource('tags', 'TagsController');
 Route::get('tags/{slug}/restore', 'TagsController@restore');
+Route::resource('forums/{forum}/topic', 'TopicsController');
 
 Route::resource('profil', 'UsersController');
 Route::resource('ecrire/oeuvres', 'BooksController');
@@ -54,32 +55,25 @@ Route::post('notes', ['uses' =>'NotesController@store']);
 
 Route::get('ecrire', ['uses' => 'AteliersController@index'])->name('atelier');
 
-Auth::routes();
+
 
 Route::get('/confirm/{id}/{token}', 'Auth\RegisterController@getConfirm');
 
-// FORUMS
 
 Route::get('forums', ['uses' => 'ForumsController@index']);
 Route::get('forums/{slug}', ['uses' => 'ForumsController@show']);
 
+
+
+
+Route::resource('admin/forums', 'ForumsController');
 Route::get('admin/forums/', ['uses' => 'ForumsController@indexadmin']);
-Route::get('admin/forums/create', ['uses' => 'ForumsController@create']);
-Route::get('admin/forums/{slug}/edit', ['uses' => 'ForumsController@edit']);
-Route::post('admin/forums/create', ['uses' => 'ForumsController@store']);
-Route::put('admin/forums/{slug}/edit', ['uses' => 'ForumsController@update']);
-Route::delete('admin/forums/{slug}', ['uses' => 'ForumsController@destroy']);
 
-// TOPICS
-
-//Route::resource('forum/{slug}/topic', 'TopicsController');
-
-Route::get('forum/{slug}/topic/{topic}', ['uses' => 'TopicsController@create']);
-Route::get('forum/{slug}/topic/create', ['uses' => 'TopicsController@create']);
-Route::post('forum/{slug}/topic/create', ['uses' => 'TopicsController@store']);
-
-Route::get('/{collection}/{slug}', ['uses' => 'ReadController@show']);
-Route::get('/{collection}/{book}/{order}/{slug}', ['uses' => 'ReadController@showChapter']);
+Auth::routes();
 
 
 
+Route::get('/{collection}/{slug}', 'ReadController@show');
+Route::get('/{collection}/{book}/{order}/{slug}', 'ReadController@showChapter');
+
+//dd(Route::getRoutes());

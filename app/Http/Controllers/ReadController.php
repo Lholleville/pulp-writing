@@ -15,14 +15,6 @@ use Illuminate\Http\Request;
 class ReadController extends Controller
 {
 
-    public function __construct(){
-
-    }
-
-    public function index(){
-
-    }
-
     public function show($slugcollection, $slug){
         $readmode = true;
         $collections = Collec::all();
