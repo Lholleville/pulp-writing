@@ -55,6 +55,7 @@ class SignalsController extends Controller {
      */
     public function store(SignalsRequest $request)
     {
+
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
         $data['approved'] = 0;

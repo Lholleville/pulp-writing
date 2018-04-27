@@ -77,13 +77,15 @@ class ForumsController extends Controller
 
     public function update(ForumsRequest $request, $slug){
         $data = $request->all();
-        if($data['collec_id'] != '0')
+        $forum = Forum::where('slug', $slug)->first();
+
+        if($data['collec_id'] != '0' && $forum->collec_id == '0')
         {
+
             if(isset($data['user_id'])){
                 $data = $request->except(['user_id']);
             }
 
-            $forum = Forum::where('slug', $slug)->first();
             $forum->update($data);
             $user_id = DB::table('collec_user')
                 ->select('user_id')
@@ -98,7 +100,6 @@ class ForumsController extends Controller
         else
         {
             $data = $request->except(['user_id']);
-            $forum = Forum::where('slug', $slug)->first();
             $forum->update($data);
             $forum->users()->sync($request->get('user_id'));
         }

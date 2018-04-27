@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Behaviour\DateTransformTime;
 use App\Behaviour\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ class Forum extends Model
     public $dates = ['updated_at', 'created_at'];
 
     use Sluggable;
+    use DateTransformTime;
 
     public function getRouteKeyName()
     {
@@ -42,11 +44,11 @@ class Forum extends Model
     public function listTopic(){
         if(!Auth::guest()){
             if(Auth::user()->roles->name == "admin" || Auth::user()->isForumModo($this)){
-                return $this->topics()->where('pinned', false)->orderBy('created_at', 'desc')->get();
+                return $this->topics()->where('pinned', false)->orderBy('last_message_time', 'desc')->paginate(20);
             }
         }
 
-        return $this->topics()->where('online', true)->where('pinned', false)->orderBy('created_at', 'desc');
+        return $this->topics()->where('online', true)->where('pinned', false)->orderBy('last_message_time', 'desc')->paginate(20);
     }
 
     public function offlineTopic(){

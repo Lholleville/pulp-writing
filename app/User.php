@@ -5,6 +5,7 @@ namespace App;
 use Badge\Badge;
 use Badge\Badgeable;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
@@ -201,6 +202,12 @@ class User extends Authenticatable
             if($this->forums->contains($forum->id)){
                 return true;
             }
+        }
+    }
+
+    public function isOP($resource){
+        if($resource->user_id == $this->id){
+            return true;
         }
     }
 

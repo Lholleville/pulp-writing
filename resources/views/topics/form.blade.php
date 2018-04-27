@@ -1,4 +1,4 @@
-{!! Form::model($topic, ['class' => 'form-horizontal', 'url' => $action == 'store' ? url('forum/'.$forum->slug.'/topic/create') : url('forum/'.$forum->slug.'/topic/'.$topic->slug.'/edit') , 'method' => $action == 'store' ? 'POST' : 'PUT', 'files' => true]) !!}
+{!! Form::model($topic, ['class' => 'form-horizontal', 'url' => $action == "store" ? action("TopicsController@store", $forum) : url('forums/'.$forum->slug.'/topic/'.$topic->slug), 'method' => $action == 'store' ? 'POST' : 'PUT', 'files' => true]) !!}
 <div class="form-group">
     <label for="title" class="col-sm-2 control-label">Titre du sujet</label>
     <div class="col-sm-10">
@@ -10,7 +10,7 @@
         {!! Form::hidden('slug', null, ['class' => 'form-control', 'id' => 'slug']) !!}
     </div>
 </div>
-
+@if($action == "store")
 <div class="form-group">
     <label for="content" class="col-sm-2 control-label">Lancez ici votre sujet de discussion...</label>
     <div class="col-sm-10">
@@ -20,6 +20,7 @@
         CKEDITOR.replace('content');
     </script>
 </div>
+@endif
 @if($action == "update")
     <div class="form-group">
         <label for="" class="col-sm-2 control-label">

@@ -18,6 +18,10 @@ class Comment extends Model
         return $this->belongsTo('App\Chapter', 'chapter_id');
     }
 
+    public function topics(){
+        return $this->belongsTo('App\Topic', 'topic_id');
+    }
+
     public function getCollectionAttribute(){
         return $this->chapters->books->collections;
     }

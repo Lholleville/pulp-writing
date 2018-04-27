@@ -20,4 +20,11 @@ trait DateTransformTime
     public function getUpdatedatAttribute($updated_at){
         return Carbon::createFromFormat('Y-m-d H:i:s', $updated_at)->format('d M Y, H:i:s');
     }
+
+    public function getLastMessageTimeAttribute($last_message_time){
+        if($last_message_time == null){
+            return null;
+        }
+        return Carbon::createFromFormat('Y-m-d H:i:s', $last_message_time)->format('d M Y, H:i:s');
+    }
 }

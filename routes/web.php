@@ -16,16 +16,18 @@ Route::get('/', ['uses' => 'HomeController@index']);
 
 Route::resource('tags', 'TagsController');
 Route::get('tags/{slug}/restore', 'TagsController@restore');
+
 Route::resource('forums/{forum}/topic', 'TopicsController');
+Route::get('topic/{slug}/pin', 'TopicsController@pin');
+Route::get('topic/{slug}/lock', 'TopicsController@lock');
+Route::get('topic/{slug}/archive', 'TopicsController@archive');
+Route::get('topic/{slug}/answer', 'TopicsController@answerable');
 
 Route::resource('profil', 'UsersController');
 Route::resource('ecrire/oeuvres', 'BooksController');
 Route::resource('ecrire/oeuvres/{oeuvre}/chapitre', 'ChaptersController');
 
-
-
-Route::get('admin', ['uses' => 'AdminsController@index'])->name('admin');
-
+Route::get('admin', 'AdminsController@index')->name('admin');
 
 Route::resource('admin/genres', 'GenresController');
 Route::resource('admin/motifs', 'MotifsController');
@@ -33,6 +35,7 @@ Route::resource('admin/statuts', 'StatutsController');
 Route::resource('admin/collections', 'CollecsController');
 Route::resource('admin/signalements', 'SignalsController');
 Route::resource('admin/motifs-signalements', 'MotifsignalsController');
+
 Route::get('admin/signalements/approved/{id}', ['uses' => 'SignalsController@approved']);
 Route::get('admin/signalements/ignored/{id}', ['uses' => 'SignalsController@ignored']);
 Route::get('admin/signalements/abused/{id}', ['uses' => 'SignalsController@abused']);
@@ -55,23 +58,16 @@ Route::post('notes', ['uses' =>'NotesController@store']);
 
 Route::get('ecrire', ['uses' => 'AteliersController@index'])->name('atelier');
 
-
-
-Route::get('/confirm/{id}/{token}', 'Auth\RegisterController@getConfirm');
-
-
-Route::get('forums', ['uses' => 'ForumsController@index']);
-Route::get('forums/{slug}', ['uses' => 'ForumsController@show']);
-
-
-
+Route::get('confirm/{id}/{token}', 'Auth\RegisterController@getConfirm');
 
 Route::resource('admin/forums', 'ForumsController');
 Route::get('admin/forums/', ['uses' => 'ForumsController@indexadmin']);
+Route::get('forums', ['uses' => 'ForumsController@index']);
+Route::get('forums/{slug}', ['uses' => 'ForumsController@show']);
 
 Auth::routes();
 
-
+Route::resource('magic', 'MagicsController');
 
 Route::get('/{collection}/{slug}', 'ReadController@show');
 Route::get('/{collection}/{book}/{order}/{slug}', 'ReadController@showChapter');

@@ -35,8 +35,13 @@ class CommentsController extends Controller
     }
 
     public function destroy($comment){
+        $tmp = $comment;
         $comment->delete();
-        return redirect($comment->chapters->books->collections->slug.'/'.$comment->chapters->books->slug.'/'.$comment->chapters->order.'/'.$comment->chapters->slug)->with('warning', 'Votre commentaire a bien été supprimé.');
+        if($tmp->chapter_id != 0){
+            return redirect($tmp->chapters->books->collections->slug.'/'.$tmp->chapters->books->slug.'/'.$tmp->chapters->order.'/'.$tmp->chapters->slug)->with('warning', 'Votre commentaire a bien été supprimé.');
+        }else{
+            return redirect('forums/'.$tmp->topics->forums->slug.'/topic/'.$tmp->topics->slug)->with('warning', 'Votre commentaire a bien été supprimé.');
+        }
 
     }
 
@@ -50,6 +55,10 @@ class CommentsController extends Controller
 
     public function update(CommentsRequest $request, $comment){
         $comment->update($request->all());
-        return redirect($comment->chapters->books->collections->slug.'/'.$comment->chapters->books->slug.'/'.$comment->chapters->order.'/'.$comment->chapters->slug)->with('success', 'Votre commentaire a bien été modifié :)');
+        if($comment->chapter != null){
+            return redirect($comment->chapters->books->collections->slug.'/'.$comment->chapters->books->slug.'/'.$comment->chapters->order.'/'.$comment->chapters->slug)->with('success', 'Votre commentaire a bien été modifié :)');
+        }else{
+            return redirect('forums/'.$comment->topics->forums->slug.'/topic/'.$comment->topics->slug)->with('success', 'Votre commentaire a bien été modifié :)');
+        }
     }
 }

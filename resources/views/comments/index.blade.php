@@ -47,8 +47,8 @@
         </div>
     </div>
 @endforeach
-@if(isset($mode) && $mode == 'message')
-    {!! $comments->render() !!}
-@endif
+    <div class="pagination">
+        {!! $comments->links() !!}
+    </div>
 
 

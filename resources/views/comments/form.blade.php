@@ -16,6 +16,8 @@
         {!! Form::hidden('text_id', $id) !!}
     @elseif($mode == 'message')
         {!! Form::hidden('discussion_id', $id) !!}
+    @elseif($mode == 'topic')
+        {!! Form::hidden('topic_id', $id) !!}
     @endif
 @endif
 <div class="form-group">
