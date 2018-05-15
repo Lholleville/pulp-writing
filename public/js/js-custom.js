@@ -122,4 +122,6 @@ $('#read').hover(function(){
     $("#nonread").removeClass("fa-eye").addClass("fa-eye-slash");
 });
 
+/*FORUMS*/
 
+$('#disclaimerForum').modal();

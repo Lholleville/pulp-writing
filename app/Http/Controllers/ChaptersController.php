@@ -65,7 +65,7 @@ class ChaptersController extends Controller
         $note = new Note();
         $motifs_annotation = [];
         $chapter = Chapter::where('slug', $slug)->first();
-        $comments = $chapter->comments;
+        $comments = $chapter->comments()->paginate(20);
         return view('chapters.show', compact('book', 'chapter', 'slugbook', 'comment', 'comments', 'note', 'motifs_annotation'));
     }
 

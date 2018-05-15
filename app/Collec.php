@@ -54,6 +54,7 @@ class Collec extends Model
         return ($primary == "1") ? true : false;
     }
 
+    //Collection de base.
     public function isPrimary(){
         return ($this->attributes['primary'] == "1") ? true : false;
     }

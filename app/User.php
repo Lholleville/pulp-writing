@@ -171,6 +171,8 @@ class User extends Authenticatable
 
     }
 
+
+
     public function getCountryAttribute(){
         if($this->attributes['country'] != null){
             return $this->attributes['country'];
@@ -209,6 +211,21 @@ class User extends Authenticatable
         if($resource->user_id == $this->id){
             return true;
         }
+    }
+
+    public function hasAvatar(){
+        return $this->attributes['avatar'] == 1 ? true : false;
+    }
+
+    public function hasConfAlias(){
+        return $this->attributes['alias_conf'] == 1 ? true : false;
+    }
+
+    public function hasAlias(){
+        if($this->attributes['alias'] != null){
+            return $this->attributes['alias_use'] == 1 ? true : false;
+        }
+        return false;
     }
 
 }

@@ -36,20 +36,24 @@
             </script>
             <div class="form-group">
                 <label for="" class="col-md-4 control-label">Avatar</label>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <label for="avatar" class="img-upload">
                         <div class="hover-img">
                             {!! Form::file('avatar', ['class' => 'form-control', 'id' => 'avatar']) !!}
                             <br>
                             <p class=""><img src="{{ url('/img/icon/folder.png') }}" alt="upload" class="img-mini-rectangle"> Importer une image...</p>
                         </div>
-                        <img src="{{ url($user->avatar) }}" alt="your avatar" id="avatar-display" />
+                        <img src="{{ url($user->avatar) }}?{{time()}}" alt="your avatar" id="avatar-display" />
                         <div id="zone">
 
                         </div>
                     </label>
                 </div>
-
+                <div class="col-sm-2">
+                    @if($user->hasAvatar())
+                        <a href="{{ action('UsersController@deleteavatar', $user) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Supprimer l'avatar"><i class="fa fa-trash"></i></a>
+                    @endif
+                </div>
                 <script>
                     document.getElementById('avatar').onchange = function (e) {
                         loadImage(
@@ -113,6 +117,24 @@
                 </label>
                 <div class="col-sm-6">
                     {!! Form::checkbox('new_letter') !!}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-md-4 control-label">Alias dans les forums</label>
+
+                <div class="col-sm-4">
+                    {!! Form::text('alias', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-sm-2">
+                    <a href="{{ action('UsersController@deletealias', $user) }}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Supprimer l'alias"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-md-4 control-label">
+                    Utiliser l'alias dans les forums ?
+                </label>
+                <div class="col-sm-6">
+                    {!! Form::checkbox('alias_use') !!}
                 </div>
             </div>
             <div class="form-group">

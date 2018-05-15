@@ -6,6 +6,7 @@ use App\Book;
 use App\Collec;
 use App\Signal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ModerationsController extends Controller
 {
@@ -35,6 +36,19 @@ class ModerationsController extends Controller
         $book = Book::where('slug', $slug)->first();
         $collection0 = Collec::where('primary', 1)->first();
         $book->update(['collec_id' => $collection0->id]);
-        return redirect()->back()->with('success', 'Le texte'.$book->name.' a été déplacé avec succès vers la collection '.$collection0->name);
+        return redirect()->back()->with('success', 'Le texte '.$book->name.' a été déplacé avec succès vers la collection '.$collection0->name);
+    }
+
+    public function superLiked($slug){
+        $book = Book::where('slug', $slug)->first();
+        if($book != null){
+            DB::table('books')->where('collec_id', $book->collections->id)->update(['superliked' => false]);
+            $book->superliked = 1;
+            $book->save();
+            return redirect()->back()->with('success', 'Le texte '.$book->name.' a été superliked');
+        }
+        return redirect('/')->with('danger', 'Le texte '.$slug.' est introuvable');
+
+
     }
 }

@@ -266,3 +266,41 @@
 .forum-description {
     background-color : #00A6C7;
 }
+
+.bandeau{
+    position : relative;
+    top: 7%;
+    height: 4%;
+    color : white;
+    width: 40%;
+    right: 7%;
+    background-color : #00A6C7;
+    transform: rotate(-50deg);
+    box-shadow: 0px 5px 0px 0px rgba(15,116,168, 0.5);
+
+}
+
+.bandeau:after{
+    content: "";
+    position: absolute;
+    right: -11px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 11px solid #00A6C7;
+    border-top: 16px solid transparent;
+    border-bottom: 11px solid transparent;
+}
+
+.bandeau:before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 11px solid #00A6C7;
+    border-top: 16px solid transparent;
+    border-bottom: 11px solid transparent;
+    transform: rotate(180deg);
+}

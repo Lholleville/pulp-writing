@@ -15,6 +15,7 @@
                     <a href="{{ action('TopicsController@answerable', $topic) }}" class="btn btn-primary">@if($topic->isAnswerable()) Désactiver les réponses @else Réactiver les réponses @endif</a>
                 @endif
                 <a href="{{ action('TopicsController@lock', $topic) }}" class="btn btn-warning">@if($topic->isLocked()) Dévérouiller @else Vérouiller le sujet @endif</a>
+                <a href="{{ action('TopicsController@archive', $topic) }}" class="btn btn-warning">@if($topic->isArchived()) Restaurer @else Archiver le sujet @endif</a>
                 <a href="{{url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}" class="btn btn-danger" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><span class=" glyphicon glyphicon-trash"></span></a>
                 @endif
             @endif
@@ -22,7 +23,7 @@
 
         </div>
     </div>
-    @include('comments.index', ['comments' => $comments])
+    @include('comments.index', ['comments' => $comments, 'mode' => 'forum'])
     @if(!$topic->isLocked())
         @if($topic->isAnswerable())
             @include('comments.form', ['action' => 'store','id' => $topic->id, 'mode' => 'topic'])

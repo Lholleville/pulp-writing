@@ -49,7 +49,14 @@ class Signal extends Model {
         }
     }
 
-    public function belongsToCollection($collection){
-        return $this->comments->chapters->books->collections->id == $collection->id;
+    public function belongsToCollectionChapter($collection){
+        if($this->comments->chapters != null){
+            return $this->comments->chapters->books->collections->id == $collection->id;
+        }
+    }
+    public function belongsToCollectionForum($forum){
+        if($this->comments->topics != null){
+            return $this->comments->topics->forums->id == $forum->id;
+        }
     }
 }

@@ -28,9 +28,15 @@ class Topic extends Model
     public function getUsernameAttribute(){
         return User::findOrFail($this->attributes['user_id'])->name;
     }
-
+    public function getAliasAttribute(){
+        return User::findOrFail($this->attributes['user_id'])->alias;
+    }
     public function comments(){
         return $this->hasMany('App\Comment', 'topic_id')->orderBy('created_at');
+    }
+
+    public function users(){
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function forums(){
@@ -42,6 +48,9 @@ class Topic extends Model
         $dir = url('/img/icon/forum/');
         if(!$this->isOnline()){
             return $dir.'/offline.png';
+        }
+        if($this->isArchived()){
+            return $dir.'/archived.png';
         }
         if($this->isLocked()){
             return $dir.'/locked.png';
@@ -70,6 +79,7 @@ class Topic extends Model
         return ($this->attributes['online'] == '1') ? true : false;
     }
 
+
     public function isHot(){
         if($this->comments != null){
             return ($this->comments->count() > 20) ? true : false;
@@ -79,6 +89,10 @@ class Topic extends Model
 
     public function isAnswerable(){
         return ($this->attributes['answerable'] == '1') ? true : false;
+    }
+
+    public function isArchived(){
+        return ($this->attributes['archived'] == '1') ? true : false;
     }
 
     public function setMessageAttribute($message){

@@ -24,6 +24,12 @@ Route::get('topic/{slug}/archive', 'TopicsController@archive');
 Route::get('topic/{slug}/answer', 'TopicsController@answerable');
 
 Route::resource('profil', 'UsersController');
+Route::get('profil/{slug}/alias/delete', ['uses' => 'UsersController@deletealias']);
+
+Route::get('profil/{slug}/avatar/delete', ['uses' => 'UsersController@deleteavatar']);
+Route::put('profil/alias/create', ['uses' => 'UsersController@setalias']);
+Route::get('profil/alias/ignore', ['uses' => 'UsersController@aliasignored']);
+
 Route::resource('ecrire/oeuvres', 'BooksController');
 Route::resource('ecrire/oeuvres/{oeuvre}/chapitre', 'ChaptersController');
 
@@ -51,6 +57,7 @@ Route::get('{id}/dislike', ['uses' => 'ChaptersController@dislike']);
 Route::get('{id}/like', ['uses' => 'ChaptersController@like']);
 Route::get('{id}/read', ['uses' => 'ChaptersController@read']);
 Route::get('{id}/unread', ['uses' => 'ChaptersController@unread']);
+Route::get('{slug}/superliked', ['uses' => 'ModerationsController@superliked']);
 
 Route::resource('comments', 'CommentsController');
 

@@ -19,6 +19,18 @@ class Book extends Model
 
     use DateTransform;
 
+
+    #BOOT#
+    public static function boot(){
+        parent::boot();
+        static::deleted(function($instance){
+            if($instance->attributes['avatar'] && $instance->avatar != "/img/chapters/defaut.jpg"){
+                unlink(public_path() . $instance->avatar);
+            }
+            return true;
+        });
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';
@@ -132,5 +144,11 @@ class Book extends Model
 
     public function getLikeAttributes(){
         return $this->chapters()->like->count();
+    }
+
+    public function isSuperliked(){
+        if($this->attributes['superliked']){
+            return true;
+        }
     }
 }

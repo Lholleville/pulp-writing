@@ -33,6 +33,9 @@
                         <a href="{{url('<% book.collection_slug %>/<% book.slug %>')}}" id="link">
                             <div class="flipper">
                                 <div class="front">
+                                    <div class="bandeau" ng-if="book.superliked">
+                                        <p class="text-center">Coup de coeur</p>
+                                    </div>
                                     <h2 class="title-book text-center"><% book.name %></h2>
                                     <h3 class="author-book text-center"><em><% book.author %></em></h3>
                                     <img src="{{url('<% book.avatar %>')}}" alt="" class="img-responsive"/>
@@ -72,6 +75,9 @@
             <div ng-repeat="book in books | filter:search" class="brocoli small-screen">
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="background-pomegranate">
+                        <div class="bandeau" ng-if="book.superliked">
+                            <p>oui</p>
+                        </div>
                         <h2 class="text-center title-book"><% book.name %></h2>
                         <h3 class="text-center author-book"><em><% book.author %></em></h3>
                     </div>

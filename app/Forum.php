@@ -48,7 +48,7 @@ class Forum extends Model
             }
         }
 
-        return $this->topics()->where('online', true)->where('pinned', false)->orderBy('last_message_time', 'desc')->paginate(20);
+        return $this->topics()->where('online', true)->where('archived', false)->where('pinned', false)->orderBy('last_message_time', 'desc')->paginate(20);
     }
 
     public function offlineTopic(){

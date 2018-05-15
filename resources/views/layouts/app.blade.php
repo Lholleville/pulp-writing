@@ -56,9 +56,7 @@
                         @if (Auth::user())
                         &nbsp;<li><a href="{{ route('atelier') }}">ECRIRE</a></li>
                          @endif
-                         @if (Auth::user())
-                            <li><a href="{{ action('ForumsController@index') }}">FORUMS</a></li>
-                         @endif
+                        <li><a href="{{ action('ForumsController@index') }}">FORUMS</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

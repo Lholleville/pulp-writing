@@ -1,5 +1,5 @@
 <?php $comments->load('users') ?>
-@foreach($comments as $comment)
+@foreach($comments->where('online', true) as $comment)
 
     <div class="row comment">
         <hr>
@@ -20,7 +20,7 @@
             @else
                 <a href="{{ url('profil/'.$comment->users->name) }}" class="title-astuce">
                     @if($comment->users->id == Auth::user()->id)
-                        <span class="blue">{{ $comment->users->name }}</span>
+                        <span class="blue">@if(isset($mode) && $mode == "forum")@if($comment->users->hasAlias()){{ $comment->users->alias }}@else {{ $comment->users->name }} @endif @else {{ $comment->users->name }} @endif</span>
                     @else
                         {{ $comment->users->name }}
                     @endif

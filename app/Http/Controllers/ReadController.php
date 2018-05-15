@@ -42,7 +42,7 @@ class ReadController extends Controller
             setcookie($cookie_name, $chapter->order, time() + 365*24*3600, '/');
         }
         $comment = new Comment();
-        $comments = $chapter->comments;
+        $comments = $chapter->comments()->paginate(20);
         return view('chapters.show', compact('readmode', 'chapter', 'slugbook', 'comment', 'comments', 'motifs_annotation', 'note'));
     }
 }

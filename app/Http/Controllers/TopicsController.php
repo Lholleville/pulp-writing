@@ -75,7 +75,13 @@ class TopicsController extends Controller
     }
 
     public function archive($topic){
-
+        $topic->archived = !$topic->archived;
+        foreach($topic->comments as $comment){
+            $comment->online = !$comment->online;
+            $comment->save();
+        }
+        $topic->save();
+        return redirect(action('ForumsController@show', $topic->forums))->with('success', $topic->online ? 'Le topic a bien été archivé.' : 'Le topic a bien été restauré');
     }
 
     public function pin($topic){

@@ -95,6 +95,12 @@ class CollecsController extends Controller
                 if($book->numberchapters == 0){
                     $point -= 10000;
                 }
+                if($book->isSuperliked()){
+                    $point += 10000;
+                    $tab['superliked'] = true;
+                }else{
+                    $tab['superliked'] = false;
+                }
                 $tab['id'] = $book->id;
                 $tab['name'] = $book->name;
                 $tab['slug'] = $book->slug;
@@ -111,6 +117,7 @@ class CollecsController extends Controller
                 $tab['authorID'] = $book->users->id;
                 $tab['parent'] = (!is_null($book->parent)) ?  'Ce texte est la suite de ' . $book->parent : null;
                 $tab['point'] = $point;
+
 
                 $tabs[] = $tab;
             }
