@@ -111,7 +111,7 @@
     color : white;
 }
 
-.brocoli + .no-result{
+.brocoli > .no-result{
     display : none;
 }
 
@@ -200,6 +200,10 @@
 }
 
 .img-mini-collec{
+    max-width : 40%;
+    height : auto;
+}
+.img-mini{
     max-width : 40%;
     height : auto;
 }

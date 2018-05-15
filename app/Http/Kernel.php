@@ -62,6 +62,8 @@ class Kernel extends HttpKernel
         'owner2' => \App\Http\Middleware\Owner2::class,
         'modo' => \App\Http\Middleware\Modo::class,
         'tags' => \App\Http\Middleware\Tags::class,
+        'banni' => \App\Http\Middleware\Banni::class,
+        'nonbanni' => \App\Http\Middleware\Nonbanni::class,
 
 
     ];

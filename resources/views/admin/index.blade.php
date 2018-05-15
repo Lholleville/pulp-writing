@@ -31,6 +31,7 @@
             <h2>Utilisateurs</h2>
             <ul>
                 <li><a href="{{action('SignalsController@index')}}">Signalement</a></li>
+                <li><a href="{{action('UsersController@index')}}">Membres</a></li>
             </ul>
         </div>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UsersRequest;
+use App\Role;
 use App\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -17,12 +18,47 @@ class UsersController extends Controller
     {
         $this->auth = $auth;
         $this->middleware('auth');
+        $this->middleware('admin', ['only' => ['index']]);
     }
 
     public function index()
     {
-
+        $users = User::All();
+        if(!$users->isEmpty()){
+            foreach($users as $user){
+                $tab['id'] = $user->id;
+                $tab['name'] = $user->name;
+                $tab['slug'] = $user->slug;
+                $tab['email'] = $user->email;
+                $tab['avatar'] = $user->avatar;
+                $tab['birthday'] = $user->birthday;
+                $tab['age'] = $user->age;
+                $tab['country'] = $user->country;
+                $tab['karma'] = $user->karma;
+                $tab['alias'] = $user->alias;
+                $tab['role'] = $user->roles->name;
+                $tab['role_color'] = $user->roles->color;
+                $tab['action'] = "users/".$user->slug."/update";
+                $tabs[] = $tab;
+            }
+        }else{
+            $tabs = [];
+        }
+        $roles = Role::all();
+        foreach($roles as $role){
+            $tab1['id'] = $role->id;
+            $tab1['name'] = $role->name;
+            $tab1['color'] = $role->color;
+            $tab1['description'] = $role->description;
+            $tabs1[] = $tab1;
+        }
+        $tabs = json_encode($tabs);
+        $tabs1 = json_encode($tabs1);
+        $users = $tabs;
+        $roles = $tabs1;
+        return view('users.index', compact('users', 'roles'));
     }
+
 
     public function edit(){
         $user = $this->auth->user();
@@ -69,5 +105,16 @@ class UsersController extends Controller
         $user = $this->auth->user();
         DB::table('users')->where('id', $user->id)->update(['alias_conf' => 1]);
         return redirect()->back();
+    }
+
+    public function updateadmin(Request $request, $slug){
+        $user = User::where('slug', $slug)->first();
+        $this->validate($request, [
+            'karma'   =>  "numeric|max:20",
+            'role' =>  array('Regex:/admin|modo|user/')
+        ]);
+        $user->update($request->all());
+        return redirect()->back()->with('success', 'Informations de l\'utilisateur modifiées');
+
     }
 }

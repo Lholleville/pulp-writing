@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Behaviour\Sluggable;
 use Badge\Badge;
 use Badge\Badgeable;
 use Carbon\Carbon;
@@ -15,6 +16,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use Badgeable;
+    use Sluggable;
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +25,8 @@ class User extends Authenticatable
     protected $guarded = [
         'id'
     ];
+
+
 
     public function roles(){
         return $this->belongsTo('App\Role','role_id');
