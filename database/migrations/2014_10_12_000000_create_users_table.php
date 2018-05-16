@@ -23,6 +23,11 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('slug');
+            $table->string('alias')->nullable();
+            $table->boolean('alias_use')->default(false);
+            $table->boolean('alias_conf')->default(false);
+            $table->boolean('new_letter')->default(false);
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('avatar')->default(false);

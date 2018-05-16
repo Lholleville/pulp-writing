@@ -19,7 +19,7 @@
     <div class="container" ng-app="app" ng-controller="MyController" xmlns="http://www.w3.org/1999/html">
         <div class="input-group add-on">
             <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
             </div>
             <input type="text" ng-model="query" class="form-control" placeholder="Vous pouvez chercher le nom d'un texte, le pseudo d'un auteur ou un genre littéraire..."/>
         </div>

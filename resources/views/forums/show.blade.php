@@ -22,7 +22,7 @@
             <form action="" method="GET">
             <div class="input-group add-on">
                 <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
                 </div>
                 <input type="text" name = "search" class="form-control" placeholder="Vous pouvez chercher un sujet, le pseudo d'un forumeur..."/>
             </div>
@@ -75,7 +75,7 @@
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}">@if($topic->users->hasAlias()){{$topic->alias}}@else{{ $topic->username }}@endif</a></td>
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}">{{$topic->name}}</a></td>
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}">{{ $topic->last_message_time }}</a></td>
-                            <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><span class="circle-red glyphicon glyphicon-trash"></span></a></td>
+                            <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><button class="btn btn-danger"><i class="far fa-trash-alt"></i></button></a></td>
                         </tr>
                     @endforeach
                     <tr>
@@ -87,7 +87,7 @@
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug) }}">@if($topic->users->hasAlias()){{$topic->alias}}@else{{ $topic->username }}@endif</a></td>
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug) }}">{{$topic->name}}</a></td>
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug) }}">{{ $topic->last_message_time }}</a></td>
-                            <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug) }}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><span class="circle-red glyphicon glyphicon-trash"></span></a></td>
+                            <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug) }}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><button class="btn btn-danger"><i class="far fa-trash-alt"></i></button></a></td>
                         </tr>
                     @endforeach
                 </tbody>

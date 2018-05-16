@@ -25,7 +25,7 @@ class AddTableForums extends Migration
         });
 
         Schema::create('forum_user', function(Blueprint $table){
-            $table->increments('id')->index();
+            $table->increments('id_forum_user')->index();
             $table->integer('forum_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('forum_id')->references('id')->on('forums');
@@ -37,15 +37,18 @@ class AddTableForums extends Migration
            $table->increments('id')->index();
            $table->string('name');
            $table->string('slug');
-           $table->text('message');
+           $table->text('message')->nullable();
            $table->boolean('online')->default(true);
            $table->boolean('pinned')->default(false);
            $table->boolean('locked')->default(false);
+           $table->boolean('archived')->default(false);
+           $table->boolean('answerable')->default(true);
            $table->integer('forum_id')->unsigned()->index();
            $table->foreign('forum_id')->references('id')->on('forums');
            $table->integer('user_id')->unsigned()->index();
            $table->foreign('user_id')->references('id')->on('users');
            $table->timestamps();
+           $table->timestamp('last_message_time')->useCurrent();
 
         });
 

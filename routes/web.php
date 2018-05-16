@@ -32,6 +32,12 @@ Route::group(['middleware' => ['banni']], function (){
     Route::resource('ecrire/oeuvres', 'BooksController');
     Route::resource('ecrire/oeuvres/{oeuvre}/chapitre', 'ChaptersController');
 
+    Route::get('/conversations', 'ConversationsController@index')->name('messagerie');
+    Route::get('/conversations/{user}', 'ConversationsController@show')
+        ->middleware('can:talkTo,user')
+        ->name('messagerie.show');
+    Route::post('/conversations/{user}', 'ConversationsController@store')
+        ->middleware('can:talkTo,user');
 
     Route::resource('admin/genres', 'GenresController');
     Route::resource('admin/motifs', 'MotifsController');
@@ -68,7 +74,7 @@ Route::group(['middleware' => ['banni']], function (){
 
     Route::resource('admin/forums', 'ForumsController');
     Route::get('admin/forums/', ['uses' => 'ForumsController@indexadmin']);
-    Route::get('forums', ['uses' => 'ForumsController@index']);
+    Route::get('forums', ['uses' => 'ForumsController@index'])->name('forum');
     Route::get('forums/{slug}', ['uses' => 'ForumsController@show']);
 
 
@@ -77,6 +83,8 @@ Route::group(['middleware' => ['banni']], function (){
 
     Route::get('/{collection}/{slug}', 'ReadController@show');
     Route::get('/{collection}/{book}/{order}/{slug}', 'ReadController@showChapter');
+
+
 
 });
 
