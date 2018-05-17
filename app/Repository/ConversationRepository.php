@@ -28,9 +28,14 @@ class ConversationRepository
         $this->message = $message;
     }
 
+    /**
+     * liste des utilisateurs à qui on peut parler
+     * @param $userID
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getConversation ($userID){
         $conversations = $this->user->newQuery()
-            ->select('name', 'id')
+            ->select('name', 'id', 'karma', 'slug', 'avatar')
             ->where('id', '!=', $userID)
             ->get();
 
@@ -57,7 +62,7 @@ class ConversationRepository
             ->orderBy('created_at', 'DESC')
             ->with([
                 'from' => function($query) {
-                    return $query->select('name', 'id');
+                    return $query->select('name', 'id', 'karma', 'slug', 'avatar');
                 }
             ]);
     }

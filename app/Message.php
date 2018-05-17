@@ -15,4 +15,8 @@ class Message extends Model
     public function from(){
         return $this->belongsTo(User::class, 'from_id');
     }
+
+    public function previousID(){
+        $this->from;
+    }
 }

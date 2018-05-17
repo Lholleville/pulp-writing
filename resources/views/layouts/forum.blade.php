@@ -15,12 +15,16 @@
                 <h2>Modérateurs du forum</h2>
                 <ul class="list-group">
                     @foreach($forum->users as $modo)
+                        @if($modo->id != Auth::user()->id)
                         <li class="list-group-item">
                             <p>
                                 {{$modo->name}} <img src="{{ url($modo->avatar) }}" alt="Avatar du modérateur {{ $modo->name }}" class="img-responsive" width="50" height="50">
-                                <br><a href="" class="btn btn-default"><i class="fa fa-envelope"></i> Contacter</a>
+                                <br><a href="{{ route('messagerie.show', $modo->id) }}" class="btn btn-default"><i class="fa fa-envelope"></i> Contacter</a>
                             </p>
                         </li>
+                        @else
+                            <li class="list-group-item"><p>Vous</p></li>
+                        @endif
                     @endforeach
                 </ul>
             </div>

@@ -125,3 +125,8 @@ $('#read').hover(function(){
 /*FORUMS*/
 
 $('#disclaimerForum').modal();
+
+/*SCROLL DIV*/
+
+rsSingle = new RS.RocketScroll('#scroll');
+$("#conversation_scrollable").scrollTop($("#conversation_scrollable")[0].scrollHeight);

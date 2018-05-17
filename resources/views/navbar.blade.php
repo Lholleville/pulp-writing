@@ -15,6 +15,7 @@
     <link href="{{ asset('css/countrySelect.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/rocketScroll.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Scripts -->
     <script src="{{ asset('js/JQuery.min.js') }}"></script>
@@ -28,6 +29,8 @@
     <script src="{{ asset('js/loadImage.js') }}"></script>
     <script src="{{ asset('js/jscolor.min.js') }}"></script>
     <script src="{{ url('/js/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ url('/js/rocketHelpers.js') }}"></script>
+    <script src="{{ url('/js/rocketScroll.js') }}"></script>
 </head>
 <body>
 <div id="app">

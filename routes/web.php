@@ -11,6 +11,13 @@
 |
 */
 
+
+Route::group([],function(){
+    Auth::routes();
+    Route::get('admin', 'AdminsController@index')->name('admin');
+    Route::get('malandrin', ['uses' => 'JailController@redirect'])->middleware(['nonbanni']);
+});
+
 Route::group(['middleware' => ['banni']], function (){
     Route::get('/', ['uses' => 'HomeController@index']);
     Route::resource('tags', 'TagsController');
@@ -88,10 +95,5 @@ Route::group(['middleware' => ['banni']], function (){
 
 });
 
-Route::group([],function(){
-    Auth::routes();
-    Route::get('admin', 'AdminsController@index')->name('admin');
-    Route::get('malandrin', ['uses' => 'JailController@redirect'])->middleware(['nonbanni']);
-});
 
 //dd(Route::getRoutes());

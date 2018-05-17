@@ -38,6 +38,7 @@ class ConversationsController extends Controller
         $me = $this->auth->user();
 
         $messages = $this->r->getMessagesFor($me->id, $user->id)->paginate(25);
+
         $unread = $this->r->unreadCount($me->id);
 
         if(isset($unread[$user->id])){

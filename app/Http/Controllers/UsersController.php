@@ -65,8 +65,8 @@ class UsersController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    public function show($name){
-        $user = User::where('name', $name)->get()->first();
+    public function show($slug){
+        $user = User::where('slug', $slug)->get()->first();
         return view('users.show', compact('user'));
     }
 

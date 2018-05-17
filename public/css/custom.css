@@ -207,6 +207,20 @@
     max-width : 40%;
     height : auto;
 }
+.img-extra-mini{
+    max-width : 20%;
+    height : auto;
+}
+
+.img-micro{
+    display : inline;
+    max-width : 10%;
+    height : auto;
+}
+
+.circled{
+    border-radius : 35px;
+}
 
 /* ################## TAGS  ##################*/
 
@@ -308,3 +322,46 @@
     border-bottom: 11px solid transparent;
     transform: rotate(180deg);
 }
+
+.message{
+    border : 1px solid;
+    border-radius : 0.40em;
+    margin : 2px !important;
+    padding : 2%;
+}
+
+.message-me{
+    background-color: #6DA5FF;
+    border-color : #5C8CD6;
+}
+
+.message-other{
+    background-color : #EFEFEF;
+    border-color : #D6D6D6;
+}
+/*La taille minimale pour que la CSS rule s'applique doit être de 639px*/
+@media screen and (min-height: 639px) {
+    .conversations{
+        height : 100%;
+        max-height: 375px;
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (min-height: 767px) {
+    .conversations{
+        height : 100%;
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (min-height: 1079px) {
+    .conversations{
+        height : 100%;
+        max-height: 650px;
+        overflow-y: scroll;
+    }
+}
+
+
