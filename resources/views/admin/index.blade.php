@@ -15,6 +15,7 @@
                 <li><a href="{{action('StatutsController@index')}}">Statuts</a></li>
                 <li><a href="{{action('MotifsController@index')}}">Motifs (annotation)</a></li>
                 <li><a href="{{action('MotifsignalsController@index')}}">Motifs (signalement)</a></li>
+                <li><a href="{{action('TagsController@index')}}">Tags</a></li>
             </ul>
         </div>
         <div class="col-sm-6">

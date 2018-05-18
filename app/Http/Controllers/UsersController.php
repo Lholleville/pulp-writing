@@ -30,7 +30,7 @@ class UsersController extends Controller
                 $tab['name'] = $user->name;
                 $tab['slug'] = $user->slug;
                 $tab['email'] = $user->email;
-                $tab['avatar'] = $user->avatar;
+                $tab['avatar'] = url($user->avatar);
                 $tab['birthday'] = $user->birthday;
                 $tab['age'] = $user->age;
                 $tab['country'] = $user->country;
@@ -39,6 +39,7 @@ class UsersController extends Controller
                 $tab['role'] = $user->roles->name;
                 $tab['role_color'] = $user->roles->color;
                 $tab['action'] = "users/".$user->slug."/update";
+                $tab['link'] = "profil/".$user->slug;
                 $tabs[] = $tab;
             }
         }else{

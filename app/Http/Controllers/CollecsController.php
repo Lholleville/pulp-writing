@@ -109,7 +109,7 @@ class CollecsController extends Controller
                 $tab['genre'] = $book->genres->name;
                 $genre = Genre::findOrFail($book->genre_id);
                 $tab['genre_parent'] = $genre->name;
-                $tab['avatar'] = $book->avatar;
+                $tab['avatar'] = url($book->avatar);
                 $tab['words'] = $book->words;
                 $tab['views'] = $book->views;
                 $tab['summary'] = $book->summarytruncated;
@@ -117,6 +117,7 @@ class CollecsController extends Controller
                 $tab['authorID'] = $book->users->id;
                 $tab['parent'] = (!is_null($book->parent)) ?  'Ce texte est la suite de ' . $book->parent : null;
                 $tab['point'] = $point;
+                $tab['link'] = url($book->collections->slug.'/'.$book->slug);
 
 
                 $tabs[] = $tab;

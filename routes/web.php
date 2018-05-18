@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('test/AngularJS', function(){
+    $users = App\User::where('id', 1)->first()->newQuery()->select('name', 'id', 'karma', 'slug', 'avatar', 'country')
+        ->where('id', '!=', 1)
+        ->get();
+    return view('test', compact('users'));
+});
 
 Route::group([],function(){
     Auth::routes();
@@ -45,7 +51,7 @@ Route::group(['middleware' => ['banni']], function (){
         ->name('messagerie.show');
     Route::post('/conversations/{user}', 'ConversationsController@store')
         ->middleware('can:talkTo,user');
-
+    Route::post('/conversations', 'ConversationsController@storespecial');
     Route::resource('admin/genres', 'GenresController');
     Route::resource('admin/motifs', 'MotifsController');
     Route::resource('admin/statuts', 'StatutsController');

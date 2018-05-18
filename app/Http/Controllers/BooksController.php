@@ -60,7 +60,6 @@ class BooksController extends Controller
 
     public function store(BooksRequest $request, Guard $auth){
 
-
         $listnewids = self::addTags($request->get('tag_id'), $auth);
         $data = $request->except(['tag_id']);
         $data['user_id'] = $auth->user()->id;

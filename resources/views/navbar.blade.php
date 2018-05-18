@@ -17,10 +17,14 @@
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/rocketScroll.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <!-- AUTO COMPLETE STYLE CSS-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
     <!-- Scripts -->
     <script src="{{ asset('js/JQuery.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-4.min.js') }}"></script>
-    <script src="{{ asset('js/angular.js') }}"></script>
+    <script src="{{ asset('js/angular.min.js') }}"></script>
     <script src="{{ asset('js/angularPerso.js') }}"></script>
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
     <script src="{{ asset('js/countrySelect.min.js') }}"></script>
@@ -31,6 +35,14 @@
     <script src="{{ url('/js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ url('/js/rocketHelpers.js') }}"></script>
     <script src="{{ url('/js/rocketScroll.js') }}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular-sanitize.js"></script>
+
+    <!-- AngularJS Material Javascript now available via Google CDN; version 1.1.4 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.9/angular-material.min.js"></script>
 </head>
 <body>
 <div id="app">

@@ -11,7 +11,6 @@
                 <div class="scroll" id="scroll">
                     <div class="card-body conversations scrollDiv" id="conversation_scrollable">
                         <div class="scrollContent">
-
                             @if($messages->hasMorePages())
                                 <div class="text-center">
                                     <a href="{{ $messages->nextPageUrl() }}" class="btn btn-light">
@@ -78,7 +77,7 @@
                         </div>
                     </form>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 @endsection

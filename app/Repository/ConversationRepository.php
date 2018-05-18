@@ -12,6 +12,7 @@ namespace App\Repository;
 use App\Message;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ConversationRepository
 {
@@ -35,12 +36,11 @@ class ConversationRepository
      */
     public function getConversation ($userID){
         $conversations = $this->user->newQuery()
-            ->select('name', 'id', 'karma', 'slug', 'avatar')
+            ->select('name', 'id', 'karma', 'slug', 'avatar', 'country')
             ->where('id', '!=', $userID)
             ->get();
 
-
-        return $conversations;
+       return $conversations;
     }
 
     public function createMessage($content, $from, $to){

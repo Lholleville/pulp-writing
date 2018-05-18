@@ -66,4 +66,19 @@ class ConversationsController extends Controller
 
         return redirect(route('messagerie.show', ['id' => $user->id]));
     }
+
+    public function storespecial(MessagesRequest $request){
+
+        $user = User::where('name', $request->get("autocompleteField"))->first();
+
+        $message = $this->r->createMessage(
+            $request->get('content'),
+            $this->auth->user()->id,
+            $user->id
+        );
+
+        $user->notify(new MessageReceived($message));
+
+        return redirect(route('messagerie.show', ['id' => $user->id]));
+    }
 }

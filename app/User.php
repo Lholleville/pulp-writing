@@ -11,9 +11,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic;
+use Kim\Activity\Activity;
 
 class User extends Authenticatable
 {
+
     use Notifiable;
     use Badgeable;
     use Sluggable;
@@ -172,10 +174,7 @@ class User extends Authenticatable
     public function hasInterractWith($chapter){
         $enregistrement = DB::table('chapter_user')->where('user_id', $this->id)->where('chapter_id', $chapter->id)->get();
         return ($enregistrement->isEmpty()) ? false : true;
-
     }
-
-
 
     public function getCountryAttribute(){
         if($this->attributes['country'] != null){
@@ -230,6 +229,83 @@ class User extends Authenticatable
             return $this->attributes['alias_use'] == 1 ? true : false;
         }
         return false;
+    }
+
+    public function isActive(){
+        $activities = Activity::users(5)->get();
+        foreach($activities as $activity){
+            if($this->id  == $activity->user->id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getActivitiesAttribute(){
+        return DB::table('sessions')->where('user_id', $this->id)->get();
+    }
+
+    public function getActivityAttribute(){
+
+        foreach($this->activities as $activity){
+            if(!$this->isActive()){
+                $seconds = time() - $activity->last_activity;
+                $delay = $this->secondsToTime($seconds);
+                return [false, $delay];
+            }
+        }
+        if(!$this->isActive()) {
+            return [false, 'Il y a un bon moment.'];
+        }else{
+            return [true, ''];
+        }
+    }
+
+    private function secondsToTime($seconds) {
+
+        if(!isset($seconds)){
+            return 'Il y a un bon moment.';
+        }
+
+        $dtF = new \DateTime('@0');
+        $dtT = new \DateTime("@$seconds");
+        $d = $dtF->diff($dtT);
+        $string = 'En ligne il y a ';
+
+        if($d->y > 0)
+        {
+            if($d->y > 1){
+                $string .= " %y ans";
+            }else{
+                $string .= " %y an";
+            }
+        }
+        if($d->m > 0){
+            $string .= " %m mois";
+        }
+        if($d->d > 0){
+            if($d->d > 1){
+                $string .= " %a jours";
+            }else{
+                $string .= " %a jour";
+            }
+        }
+        if($d->h > 0){
+            if($d->h > 1){
+                $string .= " %h heures";
+            }else{
+                $string .= " %h heure";
+            }
+        }
+        if($d->i > 0){
+            if($d->i > 1){
+                $string .= " %i minutes";
+            }else{
+                $string .= " %i minutes";
+            }
+        }
+        $string .= ".";
+        return $dtF->diff($dtT)->format($string);
     }
 
 }

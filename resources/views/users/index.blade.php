@@ -10,7 +10,7 @@
         <br>
         <div class="input-group add-on">
             <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
             </div>
             <input type="text" ng-model="query" class="form-control" placeholder="Rechercher..."/>
         </div>
@@ -26,28 +26,28 @@
         <div ng-init="users={{$users}}" >
             <tr ng-repeat="user in users | filter:searchUser" class="brocoli" >
                 <td>
-                    <a href="{{ url('profil/<% user.slug %>') }}" id="member">
-                        <img src="{{ url('<% user.avatar %>') }}" alt="avatar de <% user.name %>" class="img-mini" />
+                    <a href="@{{ user.link }}" id="member">
+                        <img src="@{{ user.avatar}}" alt="avatar de @{{ user.name }}" class="img-mini" />
                     </a>
                 </td>
                 <td>
-                    <p style="color : <% user.role_color %>;"><% user.name %></p>
+                    <p style="color : <% user.role_color %>;">@{{ user.name }}</p>
                 </td>
                 <td>
-                    <p><% user.alias %></p>
+                    <p>@{{ user.alias }}</p>
                 </td>
                 <td>
-                    <p><% user.country %></p>
+                    <p>@{{ user.country }}</p>
                 </td>
                 <td>
-                <form method="POST" action="<% user.action %>" accept-charset="UTF-8" class="form-inline">
+                <form method="POST" action="@{{ user.action }}" accept-charset="UTF-8" class="form-inline">
                     <input name="_method" type="hidden" value="PUT">
                     <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                    <input type="text" value="<% user.karma %>" class="form-control" name="karma">
+                    <input type="text" value="@{{ user.karma }}" class="form-control" name="karma">
 
                         <select class="form-control" name="role_id" ng-init = "roles={{$roles}}">
-                            <option ng-repeat="role in roles" value="<% role.id %>" ng-if="role.name == user.role" selected><% role.name %></option>
-                            <option ng-repeat="role in roles" value="<% role.id %>" ng-if="role.name != user.role"><% role.name %></option>
+                            <option ng-repeat="role in roles" value="@{{ role.id }}" ng-if="role.name == user.role" selected>@{{ role.name }}</option>
+                            <option ng-repeat="role in roles" value="@{{ role.name }}" ng-if="role.name != user.role">@{{ role.name }}</option>
                         </select>
 
                     <button type="submit" class="btn btn-success">save</button>
