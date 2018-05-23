@@ -16,7 +16,7 @@
                 @endif
                 <a href="{{ action('TopicsController@lock', $topic) }}" class="btn btn-warning">@if($topic->isLocked()) Dévérouiller @else Vérouiller le sujet @endif</a>
                 <a href="{{ action('TopicsController@archive', $topic) }}" class="btn btn-warning">@if($topic->isArchived()) Restaurer @else Archiver le sujet @endif</a>
-                <a href="{{url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}" class="btn btn-danger" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><span class=" glyphicon glyphicon-trash"></span></a>
+                <a href="{{url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}" class="btn btn-danger" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><i class="fas fa-trash"></i></a>
                 @endif
             @endif
             <h2>{{ $topic->name }}</h2>

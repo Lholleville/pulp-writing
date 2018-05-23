@@ -19,7 +19,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-10">
-                                {!! Form::hidden('slug', null, ['class' => 'form-control', 'id' => 'slug']) !!}
+                                {!! Form::text('slug', null, ['class' => 'form-control', 'id' => 'slug']) !!}
                             </div>
                         </div>
 

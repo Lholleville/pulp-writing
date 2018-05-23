@@ -55,20 +55,17 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-stripped">
-                <thead>
+            <table class="table table-striped">
+                <thead class="thead-primary">
                 <tr>
-                    <th>#</th>
-                    <th>Auteur</th>
-                    <th>Sujet</th>
-                    <th>Dernier message</th>
-                    <th>Action</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Auteur</th>
+                    <th scope="col">Sujet</th>
+                    <th scope="col">Dernier message</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td colspan="4"><hr></td>
-                    </tr>
                     @foreach($forum->listTopicPinned() as $topic)
                         <tr class="tr-hover">
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}"><img src="{{$topic->img }}" alt="topic" height="25" width="30"></a></td>
@@ -78,9 +75,6 @@
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le topic {{ $topic->name }}"><button class="btn btn-danger"><i class="far fa-trash-alt"></i></button></a></td>
                         </tr>
                     @endforeach
-                    <tr>
-                        <td colspan="4"><hr></td>
-                    </tr>
                     @foreach($listTopic as $topic)
                         <tr class="tr-hover">
                             <td><a href="{{ url('/forums/'.$forum->slug.'/topic/'.$topic->slug) }}"><img src="{{$topic->img }}" alt="topic" height="25" width="30"></a></td>

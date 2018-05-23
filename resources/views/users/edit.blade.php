@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">Mon compte<a class="pull-right add_button"><span class="glyphicon glyphicon-eye-open"></span></a></div>
+        <div class="panel-heading">Mon compte<a class="pull-right add_button"><i class="fas fa-eye"></i></a></div>
         <div class="panel-body">
             {!! Form::model($user, ['class' => 'form-horizontal', 'files' => true, 'url' => action("UsersController@update", $user), 'method' => 'PUT']) !!}
             <div class="form-group">

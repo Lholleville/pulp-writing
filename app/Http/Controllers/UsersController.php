@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use App\Http\Requests\UsersRequest;
+use App\Liste;
+use App\Listelecture;
 use App\Role;
 use App\User;
 use Illuminate\Contracts\Auth\Guard;
@@ -39,7 +42,7 @@ class UsersController extends Controller
                 $tab['role'] = $user->roles->name;
                 $tab['role_color'] = $user->roles->color;
                 $tab['action'] = "users/".$user->slug."/update";
-                $tab['link'] = "profil/".$user->slug;
+                $tab['link'] = url("/profil/".$user->slug);
                 $tabs[] = $tab;
             }
         }else{
@@ -68,7 +71,11 @@ class UsersController extends Controller
 
     public function show($slug){
         $user = User::where('slug', $slug)->get()->first();
-        return view('users.show', compact('user'));
+        $users = User::where('id', '!=', $this->auth->user()->id);
+        $books = Book::where('online', true)->get();
+        $listcontact = new Liste();
+        $newlistlecture = new Listelecture();
+        return view('users.show', compact('user', 'users', 'books', 'listcontact', 'newlistlecture'));
     }
 
     public function update(UsersRequest $request){

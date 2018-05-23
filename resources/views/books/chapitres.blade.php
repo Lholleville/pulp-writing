@@ -25,11 +25,11 @@
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->name}}</a></td>
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->POV}}</a></td>
                 @if($chapter->avatar != "/img/chapters/defaut.jpg")
-                    <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}"><span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="bottom" title="<img src='{{ url($chapter->avatar) }}' alt='illustration de {{ $chapter->name }}' class='img-responsive'/>"></span></a></td>
+                    <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}"><i class="fas fa-eye" data-toggle="tooltip" data-placement="bottom" title="<img src='{{ url($chapter->avatar) }}' alt='illustration de {{ $chapter->name }}' class='img-responsive'/>"></i></a></td>
                 @else
-                    <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}"><span class="glyphicon glyphicon-eye-close"></span></a></td>
+                    <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}"><i class="far fa-eye-slash"></i></a></td>
                 @endif
-                <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->nbComment}}</a></td>
+                <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->nbComments}}</a></td>
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->views}}</a></td>
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->words}}</a></td>
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->like}}</a></td>
@@ -37,9 +37,9 @@
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{{$chapter->order}}</a></td>
                 <td><a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}">{!! $chapter->online !!}</a></td>
                 <td>
-                    <a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug)}}"><span class="circle-green glyphicon glyphicon-eye-open"></span></a>
-                    <a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}"><span class="circle-blue glyphicon glyphicon-wrench"></span></a>
-                    <a href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le chapitre ?"><span class="circle-red glyphicon glyphicon-trash"></span></a>
+                    <a class="btn btn-success" href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug)}}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-primary" href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug.'/edit')}}"><i class="fas fa-wrench"></i></a>
+                    <a class="btn btn-danger" href="{{url('ecrire/oeuvres/'.$book->slug.'/chapitre/'.$chapter->slug)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer le chapitre ?"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
         @endforeach

@@ -75,7 +75,7 @@
                             {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('/profil/'.Auth::user()->name) }}">Profil</a>
+                            <a class="dropdown-item" href="{{ url('/profil/'.Auth::user()->slug) }}">Profil</a>
 
                             @if(Auth::user()->roles->name == "admin")
                                 <a class="dropdown-item" href="{{ url("/admin") }}">Admin</a>

@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic;
 use Kim\Activity\Activity;
@@ -28,8 +29,6 @@ class User extends Authenticatable
         'id'
     ];
 
-
-
     public function roles(){
         return $this->belongsTo('App\Role','role_id');
     }
@@ -48,6 +47,14 @@ class User extends Authenticatable
 
     public function forums(){
         return $this->belongsToMany('App\Forum');
+    }
+
+    public function listes(){
+        return $this->hasMany('App\Liste', 'user_id');
+    }
+
+    public function listelectures(){
+        return $this->hasMany('App\Listelecture', 'user_id');
     }
 
     /**
@@ -125,7 +132,6 @@ class User extends Authenticatable
         }
     }
 
-
     public function getSexAttribute($sex){
         switch($sex){
             case 1 :
@@ -192,12 +198,19 @@ class User extends Authenticatable
     public function getLikeAttribute(){
         return $this->chapters()->where('liked', 1)->count();
     }
+
     public function getReadAttribute(){
         return $this->chapters()->where('has_read', 1)->count();
     }
 
     public function isModo(){
         if($this->collections->count() > 0){
+            return true;
+        }
+    }
+
+    public function isModoCollection($collection){
+        if($this->collections->contains($collection)){
             return true;
         }
     }
@@ -255,16 +268,57 @@ class User extends Authenticatable
             }
         }
         if(!$this->isActive()) {
-            return [false, 'Il y a un bon moment.'];
+            return [false, 'Hors ligne.'];
         }else{
             return [true, ''];
         }
     }
 
+    public function getFriendslisteAttribute(){
+        return $this->listes()->where('type', Liste::AMIS_ID)->first();
+    }
+
+    public function getAbonnementslisteAttribute(){
+        return $this->listes()->where('type', Liste::ABONNEMENTS_ID)->first();
+    }
+
+    public function getSubscribelisteAttribute(){
+        return $this->listes()->where('type', Liste::SUBSCRIBERS_ID)->first();
+    }
+
+    public function getBlacklisteAttribute(){
+        return $this->listes()->where('type', Liste::BLACKLIST_ID)->first();
+    }
+
+    public function getTextslisteAttribute(){
+        return $this->listelectures()->where('type', Liste::LECTURE_ID)->first();
+    }
+
+    public function isInList($list){
+        return ($list->users->contains($this)) ? true : false;
+
+    }
+
+    public function isBlacklisted(){
+        $myblacklist = Auth::user()->getBlacklisteAttribute();
+        if($this->isInList($myblacklist)){
+            return true;
+        }
+    }
+
+    public function AmIBlacklisted(User $user){
+        $blacklist = $user->getBlacklisteAttribute();
+        if(Auth::user()->isInList($blacklist)){
+            return true;
+        }
+    }
+
+
+
     private function secondsToTime($seconds) {
 
         if(!isset($seconds)){
-            return 'Il y a un bon moment.';
+            return 'Hors ligne.';
         }
 
         $dtF = new \DateTime('@0');
@@ -307,5 +361,6 @@ class User extends Authenticatable
         $string .= ".";
         return $dtF->diff($dtT)->format($string);
     }
+
 
 }

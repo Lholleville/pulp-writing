@@ -1,10 +1,10 @@
 <?php $comments->load('users') ?>
 @foreach($comments->where('online', true) as $comment)
-
-    <div class="row comment">
+    @if(!$comment->users->isBlackListed())
+    <div class="row">
         <hr>
         <div class="col-sm-2">
-            <a href="{{ url('profil/'.$comment->users->name) }}"><img src="{{ url($comment->users->avatar) }}" alt="avatar de {{ $comment->users->name }}" class="img-responsive" /></a>
+            <a href="{{ url('profil/'.$comment->users->name) }}"><img src="{{ url($comment->users->avatar) }}" alt="avatar de {{ $comment->users->name }}" class="img-fluid" /></a>
             <br>
             <p>{{ $comment->users->age }}</p>
             <p>{{ $comment->users->sex }}</p>
@@ -28,12 +28,17 @@
 
                 <span class="pull-right"><em>{{ $comment->created_at }}</em>
                     @if($comment->users->id == Auth::user()->id)
-                        <a href="{{action('CommentsController@edit',$comment)}}"><span class="circle-blue glyphicon glyphicon-wrench"></span></a>
+                        <a class="btn btn-primary" href="{{action('CommentsController@edit',$comment)}}"><span class="fas fa-wrench"></span></a>
                     @else
-                        <a href="{{action('SignalsController@show', $comment)}}"><span class="circle-red glyphicon glyphicon-exclamation-sign"></span></a>
+                        <a class="btn btn-danger" href="{{action('SignalsController@show', $comment)}}"><i class="fas fa-exclamation-circle"></i></a>
                     @endif
                     @if($comment->canEdit(Auth::user()))
-                        <a href="{{action('CommentsController@destroy',$comment)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer votre commentaire ?"><span class="circle-red glyphicon glyphicon-trash"></span></a>
+                        <a class="btn btn-danger" href="{{action('CommentsController@destroy',$comment)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer votre commentaire ?"><i class="fas fa-trash"></i></a>
+                    @endif
+                    @if($comment->users->isBlacklisted())
+                        <a data-toggle="tooltip" data-placement="top" title="Retirer {{$comment->users->name}} de la liste noire." href="{{ action('ListesController@blacklist', $comment->users->id) }}" class="btn btn-dark"><i class="fas fa-child"></i></a>
+                    @else
+                        <a data-toggle="tooltip" data-placement="top" title="Ajouter {{$comment->users->name}} à la liste noire." href="{{ action('ListesController@blacklist', $comment->users->id) }}" class="btn btn-dark"><i class="fas fa-blind"></i></a>
                     @endif
                 </span>
             @endif
@@ -46,6 +51,45 @@
             @endif
         </div>
     </div>
+    @else
+    <div class="row">
+        <hr>
+        <div class="col-sm-2">
+            <a href="{{ url('profil/'.$comment->users->name) }}"><img src="{{ url("/img/avatars/banni.jpg") }}" alt="avatar de {{ $comment->users->name }}" class="img-fluid" /></a>
+            <br>
+            <p>Auteur mis en liste noire</p>
+        </div>
+        <div class="col-sm-10">
+
+                <a href="{{ url('profil/'.$comment->users->name) }}" class="title-astuce">
+                    <i>Auteur mis en liste noire</i>
+                </a>
+
+                <span class="pull-right"><em>{{ $comment->created_at }}</em>
+                    @if($comment->users->id == Auth::user()->id)
+                        <a class="btn btn-primary" href="{{action('CommentsController@edit',$comment)}}"><span class="fas fa-wrench"></span></a>
+                    @else
+                        <a class="btn btn-danger" href="{{action('SignalsController@show', $comment)}}"><i class="fas fa-exclamation-circle"></i></a>
+                    @endif
+                    @if($comment->canEdit(Auth::user()))
+                        <a class="btn btn-danger" href="{{action('CommentsController@destroy',$comment)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer votre commentaire ?"><i class="fas fa-trash"></i></a>
+                    @endif
+                    @if($comment->users->isBlacklisted())
+                        <a data-toggle="tooltip" data-placement="top" title="Retirer {{$comment->users->name}} de la liste noire." href="{{ action('ListesController@blacklist', $comment->users->id) }}" class="btn btn-dark"><i class="fas fa-child"></i></a>
+                    @else
+                        <a data-toggle="tooltip" data-placement="top" title="Ajouter {{$comment->users->name}} à la liste noire." href="{{ action('ListesController@blacklist', $comment->users->id) }}" class="btn btn-dark"><i class="fas fa-blind"></i></a>
+                    @endif
+                </span>
+
+            <hr>
+            <p>Auteur mis en liste noire.</p>
+            @if($comment->updated_at != $comment->created_at)
+                <br>
+                <p><em>Édité le {{$comment->updated_at}}</em></p>
+            @endif
+        </div>
+    </div>
+    @endif
 @endforeach
     <div class="pagination">
         {!! $comments->links() !!}

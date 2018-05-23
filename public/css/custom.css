@@ -192,6 +192,10 @@
     font-family: arduilanar;
 }
 
+.img-avatar-list{
+    width: 100px;
+}
+
 .img-collec{
     height : 400px;
     width : 1200px;
@@ -364,4 +368,26 @@
     }
 }
 
+.list-group-item-lecture.active {
+    z-index: 2;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.list-group-item-lecture:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+.list-group-item-lecture {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
 
+.btn i {
+    color: white;
+}

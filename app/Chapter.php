@@ -193,17 +193,17 @@ class Chapter extends Model
         }
     }
 
-    public function getContentAttribute($content){
-        $content = explode('<p>',$content);
-        $content = implode($content);
-
-        $content = explode('</p>', $content);
-        $content = implode($content);
-
-        $content = explode('&nbsp;', $content);
-        $content = implode($content);
-        return nl2br($content);
-    }
+//    public function getContentAttribute($content){
+//        $content = explode('<p>',$content);
+//        $content = implode($content);
+//
+//        $content = explode('</p>', $content);
+//        $content = implode($content);
+//
+//        $content = explode('&nbsp;', $content);
+//        $content = implode($content);
+//        return nl2br($content);
+//    }
 
     private function checkSpecChar($array, $index){
         return true;

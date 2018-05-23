@@ -12,10 +12,10 @@
             <th>Statut</th>
             <th><i class="fa fa-paint-brush" aria-hidden="true"></i></th>
             <th><i class="fa fa-eye" aria-hidden="true"></i></th>
-            <th><i class="fa fa-pencil" aria-hidden="true"></i></th>
-            <th><i class="fa fa-comment-o" aria-hidden="true"></i></th>
+            <th><i class="fas fa-pencil-alt" aria-hidden="true"></i></th>
+            <th><i class="fas fa-comments" aria-hidden="true"></i></th>
             <th><i class="fa fa-globe" aria-hidden="true"></i></th>
-            <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+            <th><i class="far fa-clock" aria-hidden="true"></i></th>
             <th>Actions</th>
         </thead>
         <tbody>
@@ -36,9 +36,9 @@
                 <td><a href="{{ action('BooksController@show',$book) }}">{!! $book->online !!}</a></td>
                 <td><a href="{{ action('BooksController@show',$book) }}">{{ $book->created_at }}</a></td>
                 <td>
-                    <a href="{{action('BooksController@edit',$book)}}"><span class="circle-blue glyphicon glyphicon-wrench"></span></a>
-                    <a href="{{action('BooksController@destroy',$book)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer votre texte ?"><span class="circle-red glyphicon glyphicon-trash"></span></a>
-                    <a href="{{action('BooksController@show',$book)}}"><span class="circle-green glyphicon glyphicon-eye-open"></span></a>
+                    <a class="btn btn-primary" href="{{action('BooksController@edit',$book)}}"><i class="fas fa-wrench"></i></a>
+                    <a class="btn btn-danger" href="{{action('BooksController@destroy',$book)}}" data-method="delete" data-confirm = "Voulez vous vraiment supprimer votre texte ?"><i class="fas fa-trash"></i></a>
+                    <a class="btn btn-success" href="{{action('BooksController@show',$book)}}"><i class="fas fa-eye"></i></a>
                 </td>
             </tr>
         @endforeach

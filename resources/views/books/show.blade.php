@@ -1,28 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-    @if($book->collections->isPrimary())
-        <form method="POST" action="{{ action('ModerationsController@update', $book->slug)}}" accept-charset="UTF-8" class="form-horizontal">
-            <input name="_method" type="hidden" value="PUT">
-            <input name="_token" type="hidden" value="{{ csrf_token() }}">
-            <div class="col-xs-4">
-                <select class="form-control" name="collec_id">
-                    @foreach($collections as $collec)
-                        @if($collec->id != $book->collections->id)
-                            <option value="{{$collec->id}}">{{ $collec->name }}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-xs-2">
-                <p><button type="submit" class="btn btn-success">save</button></p>
-            </div>
-        </form>
-    @else
-        <a data-toggle="tooltip" data-placement="bottom" title="Retirer le texte de la collection" href="{{ action('ModerationsController@reemigrate', $book->slug)}}" class="btn btn-danger"><i class="fa fa-check"></i></a>
+    @if(!Auth::guest())
+        @if(Auth::user()->roles->name == "admin" || Auth::user()->isModoCollection($book->collections))
+            @if($book->collections->isPrimary())
+                <form method="POST" action="{{ action('ModerationsController@update', $book->slug)}}" accept-charset="UTF-8" class="form-horizontal">
+                    <input name="_method" type="hidden" value="PUT">
+                    <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                    <div class="col-xs-4">
+                        <select class="form-control" name="collec_id">
+                            @foreach($collections as $collec)
+                                @if($collec->id != $book->collections->id)
+                                    <option value="{{$collec->id}}">{{ $collec->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-xs-2">
+                        <p><button type="submit" class="btn btn-success">save</button></p>
+                    </div>
+                </form>
+            @else
+                <a data-toggle="tooltip" data-placement="bottom" title="Retirer le texte de la collection" href="{{ action('ModerationsController@reemigrate', $book->slug)}}" class="btn btn-danger"><i class="fa fa-check"></i></a>
+            @endif
+        @endif
     @endif
+
     @if(isset($readmode) && $readmode == true)
         <a href="{{ action('CollecsController@normalShow', $book->collections->slug) }}" class="btn btn-warning">Revenir à la collection : {{ $book->collections->name }}</a>
+        @if(!Auth::guest())
+            @if(!$book->isInList(Auth::user()->textsliste))
+                <a href="{{ action('ListeslectureController@subscribe', $book->id) }}" class="btn btn-primary">S'abonner</a>
+            @else
+                <a href="{{ action('ListeslectureController@subscribe', $book->id) }}" class="btn btn-warning">Se désabonner</a>
+            @endif
+        @endif
     @endif
     <div class="row">
         <div class="col-sm-12">

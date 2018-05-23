@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Liste;
+use App\Listelecture;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+
 
 class RegisterController extends Controller
 {
@@ -57,6 +60,8 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+        $this->setLists($user);
+
         $this->guard()->login($user);
 
 
@@ -85,6 +90,7 @@ class RegisterController extends Controller
         $token = str_random(60);
         $user = User::create([
             'name' => $data['name'],
+            'slug' => null,
             'email' => $data['email'],
             'confirmation_token' => $token,
             'password' => bcrypt($data['password']),
@@ -94,6 +100,103 @@ class RegisterController extends Controller
             $message->to($user->email)->subject('Confirmation de votre compte');
         });
         return $user;
+    }
+
+    protected function setLists($user){
+        $list = new Liste();
+        $listlecture = new Listelecture();
+        $rule = new Regle();
+
+        $list->create(
+            [
+                'name' => Liste::AMIS_NAME,
+                'description' => Liste::AMIS_DESCRIPTION,
+                'type' => Liste::AMIS_ID,
+                'user_id' => $user->id,
+            ]);
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+        $rule = Regle::orderBy('id', 'DESC')->first();
+
+
+        $list->regles()->sync($rule->id);
+
+
+        $list->create(
+            [
+                'name' => Liste::BLACKLIST_NAME,
+                'description' => Liste::BLACKLIST_DESCRIPTION,
+                'type' => Liste::BLACKLIST_ID,
+                'user_id' => $user->id,
+            ]);
+
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+        $rule = Regle::orderBy('id', 'DESC')->first();
+
+
+        $list->regles()->sync($rule->id);
+
+
+        $list->create(
+            [
+                'name' => Liste::SUBSCRIBERS_NAME,
+                'description' => Liste::SUBSCRIBERS_DESCRIPTION,
+                'type' => Liste::SUBSCRIBERS_ID,
+                'user_id' => $user->id,
+            ]);
+
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+        $rule = Regle::orderBy('id', 'DESC')->first();
+
+
+        $list->regles()->sync($rule->id);
+
+
+        $list->create(
+            [
+                'name' => Liste::ABONNEMENTS_NAME,
+                'description' => Liste::ABONNEMENTS_DESCRIPTION,
+                'type' => Liste::ABONNEMENTS_ID,
+                'user_id' => $user->id,
+            ]);
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+        $rule = Regle::orderBy('id', 'DESC')->first();
+
+
+        $list->regles()->sync($rule->id);
+
+
+        $listlecture->create(
+            [
+                'name' => Listelecture::LECTURE_NAME,
+                'description' => Listelecture::LECTURE_DESCRIPTION,
+                'type' => Listelecture::LECTURE_ID,
+                'user_id' => $user->id,
+            ]);
+        $listlecture = Listelecture::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $listlecture->id
+        ]);
+        $rule = Reglelecture::orderBy('id', 'DESC')->first();
+
+        $listlecture->reglelectures()->sync($rule->id);
+
     }
 
     public function getConfirm(Request $request, $user_id, $token){

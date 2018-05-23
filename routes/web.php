@@ -11,12 +11,17 @@
 |
 */
 
-Route::get('test/AngularJS', function(){
-    $users = App\User::where('id', 1)->first()->newQuery()->select('name', 'id', 'karma', 'slug', 'avatar', 'country')
-        ->where('id', '!=', 1)
-        ->get();
-    return view('test', compact('users'));
-});
+use App\Liste;
+use App\Listelecture;
+use App\Regle;
+use App\Reglelecture;
+
+//Route::get('test/AngularJS', function(){
+//    $users = App\User::where('id', 1)->first()->newQuery()->select('name', 'id', 'karma', 'slug', 'avatar', 'country')
+//        ->where('id', '!=', 1)
+//        ->get();
+//    return view('test', compact('users'));
+//});
 
 Route::group([],function(){
     Auth::routes();
@@ -28,6 +33,23 @@ Route::group(['middleware' => ['banni']], function (){
     Route::get('/', ['uses' => 'HomeController@index']);
     Route::resource('tags', 'TagsController');
     Route::get('tags/{slug}/restore', 'TagsController@restore');
+
+    Route::put('listes/{id}', 'ListesController@update');
+    Route::post('listes/create', 'ListesController@store');
+    Route::delete('listes/{id}', 'ListesController@destroy');
+
+    Route::PUT('listes/{id}/rules', 'ListesController@setrules');
+    Route::PUT('listeslecture/{id}/rules', 'ListeslectureController@setruleslecture');
+
+    Route::get('users/{id}/friends', 'ListesController@friends');
+    Route::get('users/{id}/subscribe', 'ListesController@subscribe');
+    Route::get('users/{id}/blacklist', 'ListesController@blacklist');
+
+    Route::put('listeslecture/{id}', 'ListeslectureController@update');
+    Route::post('listeslecture/create', 'ListeslectureController@store');
+    Route::delete('listeslecture/{id}', 'ListeslectureController@destroy');
+
+    Route::get('books/{id}/subscribe', 'ListeslectureController@subscribe');
 
     Route::resource('forums/{forum}/topic', 'TopicsController');
     Route::get('topic/{slug}/pin', 'TopicsController@pin');
@@ -102,4 +124,89 @@ Route::group(['middleware' => ['banni']], function (){
 });
 
 
-//dd(Route::getRoutes());
+Route::get('test', function(){
+
+    $users = \App\User::all();
+
+    foreach ($users as $user){
+        $list = new Liste();
+        $listlecture = new Listelecture();
+        $rule = new Regle();
+        $rulelecture = new Reglelecture();
+
+        /* Liste d'amis */
+        $list->create(
+            [
+                'name' => Liste::AMIS_NAME,
+                'description' => Liste::AMIS_DESCRIPTION,
+                'type' => Liste::AMIS_ID,
+                'user_id' => $user->id,
+            ]);
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+
+        /* Blacklist */
+        $list->create(
+            [
+                'name' => Liste::BLACKLIST_NAME,
+                'description' => Liste::BLACKLIST_DESCRIPTION,
+                'type' => Liste::BLACKLIST_ID,
+                'user_id' => $user->id,
+            ]);
+
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+
+        /* Liste des abonnés */
+        $list->create(
+            [
+                'name' => Liste::SUBSCRIBERS_NAME,
+                'description' => Liste::SUBSCRIBERS_DESCRIPTION,
+                'type' => Liste::SUBSCRIBERS_ID,
+                'user_id' => $user->id,
+            ]);
+
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+
+        /* Liste des abonnements */
+
+        $list->create(
+            [
+                'name' => Liste::ABONNEMENTS_NAME,
+                'description' => Liste::ABONNEMENTS_DESCRIPTION,
+                'type' => Liste::ABONNEMENTS_ID,
+                'user_id' => $user->id,
+            ]);
+        $list = Liste::orderBy('id', 'DESC')->first();
+
+        $rule->create([
+            'liste_id' => $list->id
+        ]);
+
+        /* Liste de lecture */
+        $listlecture->create(
+            [
+                'name' => Listelecture::LECTURE_NAME,
+                'description' => Listelecture::LECTURE_DESCRIPTION,
+                'type' => Listelecture::LECTURE_ID,
+                'user_id' => $user->id,
+            ]);
+        $listlecture = Listelecture::orderBy('id', 'DESC')->first();
+
+        $rulelecture->create([
+            'listelecture_id' => $listlecture->id
+        ]);
+
+
+    }
+});

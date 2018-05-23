@@ -151,4 +151,8 @@ class Book extends Model
             return true;
         }
     }
+
+    public function isInList($list){
+        return ($list->books->contains($this)) ? true : false;
+    }
 }
