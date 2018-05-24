@@ -182,6 +182,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\CommentsModelServiceProvider::class,
+        App\Providers\ListesModelServiceProvider::class,
+        App\Providers\ListelectureModelServiceProvider::class,
 
 
     ],

@@ -57,6 +57,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Listelecture', 'user_id');
     }
 
+    public function comments(){
+        return $this->hasMany('App\Comment', 'user_id');
+    }
+
+    public function journals(){
+        return $this->hasMany('App\Journal');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -293,6 +301,8 @@ class User extends Authenticatable
     public function getTextslisteAttribute(){
         return $this->listelectures()->where('type', Liste::LECTURE_ID)->first();
     }
+
+
 
     public function isInList($list){
         return ($list->users->contains($this)) ? true : false;

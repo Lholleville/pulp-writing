@@ -20,6 +20,8 @@
                     {!! Form::hidden('discussion_id', $id) !!}
                 @elseif($mode == 'topic')
                     {!! Form::hidden('topic_id', $id) !!}
+                @elseif($mode == 'journal')
+                    {!! Form::hidden('journal_id', $id) !!}
                 @endif
             @endif
             <div class="form-group">
