@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Comment;
 use App\Http\Requests\UsersRequest;
 use App\Liste;
 use App\Listelecture;
@@ -75,7 +76,8 @@ class UsersController extends Controller
         $books = Book::where('online', true)->get();
         $listcontact = new Liste();
         $newlistlecture = new Listelecture();
-        return view('users.show', compact('user', 'users', 'books', 'listcontact', 'newlistlecture'));
+        $comment = new Comment();
+        return view('users.show', compact('user', 'users', 'books', 'listcontact', 'newlistlecture', 'comment'));
     }
 
     public function update(UsersRequest $request){

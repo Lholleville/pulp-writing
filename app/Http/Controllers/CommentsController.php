@@ -47,10 +47,11 @@ class CommentsController extends Controller
 
     public function store(CommentsRequest $request, Guard $auth){
         $data = $request->all();
+        //dd($data);
         $data["signal"] = 0;
         $data["user_id"] = $auth->user()->id;
         Comment::create($data);
-        return back()->with('success', 'Merci pour votre commentaire ! :)');
+        return redirect()->back()->with('success', 'Merci pour votre commentaire ! :)');
     }
 
     public function update(CommentsRequest $request, $comment){

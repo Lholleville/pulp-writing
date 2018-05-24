@@ -40,6 +40,7 @@ class ListesController extends Controller
             $data['name'] = Liste::CUSTOM_USER_NAME;
         }
         Liste::create($data);
+
         return redirect()->back()->with('sucess', 'Votre liste "'.$data['name'].'" a bien été créée.');
     }
 

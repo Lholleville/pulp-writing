@@ -19,6 +19,7 @@ class BadgeMigration extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('action');
+            $table->text('description');
             $table->boolean('avatar')->default(0);
             $table->integer('action_count')->unsigned();
         });
