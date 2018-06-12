@@ -38,6 +38,13 @@ Route::group(['middleware' => ['banni']], function (){
     Route::post('listes/create', 'ListesController@store');
     Route::delete('listes/{id}', 'ListesController@destroy');
 
+    Route::resource('fil-d-actualite', 'JournalsController');
+    Route::get('comments/{id}/like', 'CommentsController@like');
+    Route::get('comments/{id}/dislike', 'CommentsController@dislike');
+
+    Route::get('journals/{id}/like', 'JournalsController@like');
+    Route::get('journals/{id}/dislike', 'JournalsController@dislike');
+
     Route::PUT('listes/{id}/rules', 'ListesController@setrules');
     Route::PUT('listeslecture/{id}/rules', 'ListeslectureController@setruleslecture');
 
@@ -86,6 +93,8 @@ Route::group(['middleware' => ['banni']], function (){
     Route::get('admin/signalements/ignored/{id}', ['uses' => 'SignalsController@ignored']);
     Route::get('admin/signalements/abused/{id}', ['uses' => 'SignalsController@abused']);
 
+    Route::get('notification/{id}/read', 'NotificationsController@read');
+    Route::get('notification/all/read', 'NotificationsController@lol');
 
     Route::resource('moderation', 'ModerationsController');
     Route::get('moderation/{slug}/reemigrate', ['uses' => 'ModerationsController@reemigrate']);
@@ -113,100 +122,12 @@ Route::group(['middleware' => ['banni']], function (){
     Route::get('forums/{slug}', ['uses' => 'ForumsController@show']);
 
 
+    Route::resource('admin/config', "ConfigurationsController");
 
     Route::resource('magic', 'MagicsController');
 
     Route::get('/{collection}/{slug}', 'ReadController@show');
     Route::get('/{collection}/{book}/{order}/{slug}', 'ReadController@showChapter');
 
-
-
 });
 
-
-Route::get('test', function(){
-
-    $users = \App\User::all();
-
-    foreach ($users as $user){
-        $list = new Liste();
-        $listlecture = new Listelecture();
-        $rule = new Regle();
-        $rulelecture = new Reglelecture();
-
-        /* Liste d'amis */
-        $list->create(
-            [
-                'name' => Liste::AMIS_NAME,
-                'description' => Liste::AMIS_DESCRIPTION,
-                'type' => Liste::AMIS_ID,
-                'user_id' => $user->id,
-            ]);
-        $list = Liste::orderBy('id', 'DESC')->first();
-
-        $rule->create([
-            'liste_id' => $list->id
-        ]);
-
-        /* Blacklist */
-        $list->create(
-            [
-                'name' => Liste::BLACKLIST_NAME,
-                'description' => Liste::BLACKLIST_DESCRIPTION,
-                'type' => Liste::BLACKLIST_ID,
-                'user_id' => $user->id,
-            ]);
-
-        $list = Liste::orderBy('id', 'DESC')->first();
-
-        $rule->create([
-            'liste_id' => $list->id
-        ]);
-
-        /* Liste des abonnés */
-        $list->create(
-            [
-                'name' => Liste::SUBSCRIBERS_NAME,
-                'description' => Liste::SUBSCRIBERS_DESCRIPTION,
-                'type' => Liste::SUBSCRIBERS_ID,
-                'user_id' => $user->id,
-            ]);
-
-        $list = Liste::orderBy('id', 'DESC')->first();
-
-        $rule->create([
-            'liste_id' => $list->id
-        ]);
-
-        /* Liste des abonnements */
-
-        $list->create(
-            [
-                'name' => Liste::ABONNEMENTS_NAME,
-                'description' => Liste::ABONNEMENTS_DESCRIPTION,
-                'type' => Liste::ABONNEMENTS_ID,
-                'user_id' => $user->id,
-            ]);
-        $list = Liste::orderBy('id', 'DESC')->first();
-
-        $rule->create([
-            'liste_id' => $list->id
-        ]);
-
-        /* Liste de lecture */
-        $listlecture->create(
-            [
-                'name' => Listelecture::LECTURE_NAME,
-                'description' => Listelecture::LECTURE_DESCRIPTION,
-                'type' => Listelecture::LECTURE_ID,
-                'user_id' => $user->id,
-            ]);
-        $listlecture = Listelecture::orderBy('id', 'DESC')->first();
-
-        $rulelecture->create([
-            'listelecture_id' => $listlecture->id
-        ]);
-
-
-    }
-});

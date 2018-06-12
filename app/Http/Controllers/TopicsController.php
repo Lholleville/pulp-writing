@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Forum;
 use App\Http\Requests\TopicsRequest;
+use App\Notification;
 use App\Topic;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -41,6 +42,7 @@ class TopicsController extends Controller
         $data['pinned'] = false;
         $data['locked'] = false;
         $data['online'] = true;
+        $data['answerable'] = true;
         Topic::create($data);
 
         return redirect(action('ForumsController@show', $slug))->with('success', 'Votre nouveau sujet a été créé');
@@ -87,6 +89,11 @@ class TopicsController extends Controller
     public function pin($topic){
         $topic->pinned = !$topic->pinned;
         $topic->save();
+        Notification::create([
+            'content' => ($topic->pinned) ? 'Votre topic <b>'.$topic->name.'</b> a été épinglé par un modérateur, félicitation.' : 'L\'épingle de votre topic a été retirée.',
+            'user_id' => $topic->users->id,
+            'link' => url("forums/".$topic->forums->slug."/topic/".$topic->slug),
+        ]);
         return redirect(action('ForumsController@show', $topic->forums))->with('success', $topic->pinned ? 'Le topic a bien été épinglé.' : 'Le topic a bien été désépinglé');
     }
 
@@ -96,6 +103,11 @@ class TopicsController extends Controller
             $topic->answerable = true;
         }
         $topic->save();
+        Notification::create([
+            'content' => ($topic->locked) ? 'Votre topic <b>'.$topic->name.'</b> a été vérouillé par un modérateur.' : 'Votre topic <b>'.$topic->name.'</b> a été dévérouillé par un modérateur.',
+            'user_id' => $topic->users->id,
+            'link' => url("forums/".$topic->forums->slug."/topic/".$topic->slug),
+        ]);
         return redirect(action('ForumsController@show', $topic->forums))->with('success', $topic->locked ? 'Le topic a bien été vérouillé.' : 'Le topic a bien été dévérouillé');
     }
 

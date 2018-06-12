@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Annotation;
 use App\Book;
 use App\Collec;
+use App\Events\UserCreateTextEvent;
 use App\Genre;
 use App\Http\Requests\BooksRequest;
+use App\Notification;
 use App\Statut;
 use App\Tag;
+use App\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +70,8 @@ class BooksController extends Controller
         $data['collec_id'] = Collec::where('primary', 1)->first()->id;
         $book = Book::create($data);
         $book->tags()->sync($listnewids);
-        return redirect(action('AteliersController@index'))->with('success', 'Nouvelle oeuvre crée.');
+        event(new UserCreateTextEvent($auth->user(), $book));
+        return redirect(action('AteliersController@index'))->with('success', 'Nouvelle oeuvre créée.');
 
     }
 
@@ -104,9 +108,32 @@ class BooksController extends Controller
 
         $data = $request->except(['tag_id']);
         $data['user_id'] = $auth->user()->id;
+
+        if($data['statut_id'] != $book->statut_id){
+            $statut1 = Statut::where("id",$book->statut_id)->first();
+            $statut2 = Statut::where("id",$data['statut_id'])->first();
+
+            $users = User::All();
+            $content = "Le texte ".$book->name." est passé de <span style=\"color : ".$statut1->color.";\">".$statut1->name."</span> à <span style=\"color : ".$statut2->color.";\">".$statut2->name."</span>";
+            $link = url($book->collections->slug."/".$book->slug);
+
+            foreach($users as $user){
+                if($book->isInList($user->textsliste)){
+                    if($user->textsliste->reglelectures->text_statut_changed){
+                        Notification::create([
+                            'content' => $content,
+                            'user_id' => $user->id,
+                            'link' => $link,
+                        ]);
+                    }
+                }
+            }
+        }
         $book->update($data);
 
         $book->tags()->sync($listnewids);
+
+
 
         return redirect(action('BooksController@show', $book))->with('success', 'l\'oeuvre "'.$book->name.'" a bien été modifiée');
     }

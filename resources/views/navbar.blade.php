@@ -35,6 +35,7 @@
     <script src="{{ url('/js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ url('/js/rocketHelpers.js') }}"></script>
     <script src="{{ url('/js/rocketScroll.js') }}"></script>
+    <script src="{{ url('/js/back.js') }}"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-aria.min.js"></script>
@@ -59,13 +60,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('forum') }}">FORUMS <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("fil-d-actualite") }}">ACTUALITÉS</a>
+                    </li>
                     @if (Auth::user())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('messagerie') }}">MESSAGERIE <span class="sr-only">(current)</span></a>
                         </li>
+                        @include('notifications')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('atelier') }}">ÉCRIRE <span class="sr-only">(current)</span></a>
                         </li>
+
                     @endif
                 </ul>
                 <ul class="nav justify-content-end">

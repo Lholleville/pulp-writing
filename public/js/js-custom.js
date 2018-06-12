@@ -103,30 +103,54 @@ $('#chapitre').mouseup(function(){
 
 
 
-/* LIKE */
-$('#like').hover(function(){
-    $("#nonlike").removeClass("fa-heart-o").addClass("fa-heart");
-}, function(){
-    $("#nonlike").removeClass("fa-heart").addClass("fa-heart-o");
+/* MESSAGE */
+var zone = $(".comment_zone");
+var is_hidden = true;
+var form_hidden = true;
+zone.hide();
+$("button").filter(function(){
+   return this.id.match(/post_[0-9]+/);
+}).click(function(e){
+
+    var id = "#comment_" + $(this).attr('id');
+
+    if(is_hidden){
+        $(this).html("Masquer les réponses");
+        $(id).show().fadeIn();
+    }else{
+        $(this).html("Réafficher les réponses");
+        zone.hide();
+    }
+    is_hidden = !is_hidden;
+
 });
 
-$('#like2').hover(function(){
-    $("#nonlike2").removeClass("fa-heart-o").addClass("fa-heart");
-}, function(){
-    $("#nonlike2").removeClass("fa-heart").addClass("fa-heart-o");
+$("button").filter(function(){
+    return this.id.match(/form_[0-9]+/);
+}).click(function(e){
+    var id = "#form_" + $(this).attr('id');
+    console.log(id);
+    if(form_hidden){
+        $(this).html("Masquer le formulaire");
+        $(id).show().fadeIn();
+    }else{
+        $(this).html("Répondre");
+        zone.hide();
+    }
+    form_hidden = !form_hidden;
 });
 
-$('#read').hover(function(){
-    $("#nonread").removeClass("fa-eye-slash").addClass("fa-eye");
-}, function(){
-    $("#nonread").removeClass("fa-eye").addClass("fa-eye-slash");
-});
 
 /*FORUMS*/
 
 $('#disclaimerForum').modal();
 
 /*SCROLL DIV*/
+if($('#scroll').length){
+    rsSingle = new RS.RocketScroll('#scroll');
+    $("#conversation_scrollable").scrollTop($("#conversation_scrollable")[0].scrollHeight);
+}
 
-rsSingle = new RS.RocketScroll('#scroll');
-$("#conversation_scrollable").scrollTop($("#conversation_scrollable")[0].scrollHeight);
+
+/*AJAX*/
+

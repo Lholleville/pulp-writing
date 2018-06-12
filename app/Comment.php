@@ -22,6 +22,15 @@ class Comment extends Model
         return $this->belongsTo('App\Topic', 'topic_id');
     }
 
+    public function journals(){
+        return $this->belongsTo('App\Journal', 'journal_id');
+    }
+
+    public function engagements(){
+        return $this->hasMany('App\Engagement', 'comment_id');
+    }
+
+
     public function getCollectionAttribute(){
         return $this->chapters->books->collections;
     }
@@ -39,5 +48,43 @@ class Comment extends Model
 
     public function isSignaled(){
 
+    }
+
+    public function getTypeAttribute(){
+        if ($this->attributes['chapter_id'] != 0){
+            return "chapter";
+        }
+        if ($this->attributes['topic_id'] != 0){
+            return "topic";
+        }
+        if ($this->attributes['journal_id'] != 0){
+            return "journal";
+        }
+    }
+
+    public function getLikeAttribute(){
+        $engagements = $this->engagements;
+        $likes = 0;
+        $names = [];
+        foreach($engagements as $e){
+            if($e->has_like == 1){
+                $likes++;
+                $names[] = $e->users->name;
+            }
+        }
+        return [$likes, $names];
+    }
+
+    public function getDislikeAttribute(){
+        $engagements = $this->engagements;
+        $likes = 0;
+        $names = [];
+        foreach($engagements as $e){
+            if($e->has_dislike == 1){
+                $likes++;
+                $names[] = $e->users->name;
+            }
+        }
+        return [$likes, $names];
     }
 }

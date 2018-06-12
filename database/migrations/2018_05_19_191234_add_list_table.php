@@ -59,10 +59,7 @@ class AddListTable extends Migration
             $table->boolean('user_article_created')->default(true);
             $table->boolean('user_diary_created')->default(true);
             $table->boolean('user_topic_created')->default(true);
-            $table->boolean('collection_text_created')->default(true);
-            $table->boolean('topic_text_created')->default(true);
-            $table->boolean('text_chapter_created')->default(true);
-            $table->boolean('text_statut_changed')->default(true);
+            $table->boolean('user_can_see_diary')->default(true);
             $table->timestamps();
         });
 

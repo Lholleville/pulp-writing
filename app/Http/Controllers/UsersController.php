@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Comment;
 use App\Http\Requests\UsersRequest;
+use App\Journal;
 use App\Liste;
 use App\Listelecture;
 use App\Role;
 use App\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
@@ -21,7 +23,7 @@ class UsersController extends Controller
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['show']]);
         $this->middleware('admin', ['only' => ['index']]);
     }
 
@@ -72,12 +74,15 @@ class UsersController extends Controller
 
     public function show($slug){
         $user = User::where('slug', $slug)->get()->first();
-        $users = User::where('id', '!=', $this->auth->user()->id);
+        if(!Auth::guest()){
+            $users = User::where('id', '!=', $this->auth->user()->id);
+        }
         $books = Book::where('online', true)->get();
         $listcontact = new Liste();
         $newlistlecture = new Listelecture();
         $comment = new Comment();
-        return view('users.show', compact('user', 'users', 'books', 'listcontact', 'newlistlecture', 'comment'));
+        $journal = new Journal();
+        return view('users.show', compact('user', 'users', 'books', 'listcontact', 'newlistlecture', 'comment', 'journal'));
     }
 
     public function update(UsersRequest $request){

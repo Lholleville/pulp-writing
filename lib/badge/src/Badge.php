@@ -2,6 +2,7 @@
 
 namespace Badge;
 
+use App\Notification;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,18 @@ class Badge extends Model
                 'user_id' => $user->id,
                 'badge_id' => $badge->id,
                 'created_at' => date('Y-m-d H:i:s')
+            ]);
+
+            /*Comment or delete if notification system is not set up*/
+            $content = "<b>Vous avez débloqué un nouveau bagde !</b>
+                        <br>
+                        <img src='$badge->avatar' alt='' class='img-mini'><i>$badge->name</i>";
+            $link = url("profil/".$user->slug);
+
+            Notification::create([
+                'content' => $content,
+                'user_id' => $user->id,
+                'link' => $link,
             ]);
         }
     }

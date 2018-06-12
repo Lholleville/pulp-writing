@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ListesRequest;
 use App\Liste;
+use App\Notification;
 use App\User;
 use DateTime;
 use Illuminate\Contracts\Auth\Guard;
@@ -64,6 +65,14 @@ class ListesController extends Controller
             $listsubscribe->users()->detach($this->auth->user()->id);
         }else{
             $listsubscribe->users()->attach($this->auth->user()->id);
+
+            $content = "L'utilisateur ".$this->auth->user()->name." vient de s'abonner à vous !";
+            $link = url("profil/".$this->auth->user()->slug);
+            Notification::create([
+                'content' => $content,
+                'user_id' => $user->id,
+                'link' => $link,
+            ]);
         }
 
         if($user->isInlist($list)){
@@ -93,9 +102,7 @@ class ListesController extends Controller
 
     public function setrules(Request $request, $id){
         $list = Liste::findOrFail($id);
-        $regle = $list->regles->first();
-
-
+        $regle = $list->regles;
 
         $data = $request->all();
 
@@ -111,7 +118,9 @@ class ListesController extends Controller
         if(!isset($data['user_topic_created'])){
             $data['user_topic_created'] = 0;
         }
-
+        if(!isset($data['user_can_see_diary'])){
+            $data['user_can_see_diary'] = 0;
+        }
         $regle->update($data);
         return redirect()->back()->with('success', 'Les règles de validation ont bien été validées');
 

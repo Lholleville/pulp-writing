@@ -65,6 +65,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Journal');
     }
 
+    public function notifications(){
+        return $this->hasMany('App\Notification');
+    }
+
+    public function getNbUnreadNotificationsAttribute(){
+        return $this->notifications()->where('read', false)->count();
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -169,6 +177,7 @@ class User extends Authenticatable
         }
         return false;
     }
+
 
     public function hasRead($chapter){
         //si le chapitre récupéré correspond à un enregistrement de la table
@@ -372,5 +381,21 @@ class User extends Authenticatable
         return $dtF->diff($dtT)->format($string);
     }
 
+    public function hasLikeComment($comment){
+        foreach($comment->engagements as $e){
+            if($e->users->id == Auth::user()->id && $e->has_like == 1){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public function hasDislikeComment($comment){
+        foreach($comment->engagements as $e){
+            if($e->users->id == Auth::user()->id && $e->has_dislike == 1){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -106,23 +106,23 @@ class RegisterController extends Controller
         $list = new Liste();
         $listlecture = new Listelecture();
         $rule = new Regle();
-
-        $list->create(
-            [
-                'name' => Liste::AMIS_NAME,
-                'description' => Liste::AMIS_DESCRIPTION,
-                'type' => Liste::AMIS_ID,
-                'user_id' => $user->id,
-            ]);
-        $list = Liste::orderBy('id', 'DESC')->first();
-
-        $rule->create([
-            'liste_id' => $list->id
-        ]);
-        $rule = Regle::orderBy('id', 'DESC')->first();
-
-
-        $list->regles()->sync($rule->id);
+//
+//        $list->create(
+//            [
+//                'name' => Liste::AMIS_NAME,
+//                'description' => Liste::AMIS_DESCRIPTION,
+//                'type' => Liste::AMIS_ID,
+//                'user_id' => $user->id,
+//            ]);
+//        $list = Liste::orderBy('id', 'DESC')->first();
+//
+//        $rule->create([
+//            'liste_id' => $list->id
+//        ]);
+//        $rule = Regle::orderBy('id', 'DESC')->first();
+//
+//
+//        $list->regles()->sync($rule->id);
 
 
         $list->create(

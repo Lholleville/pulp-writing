@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Collec;
 use App\Forum;
 use App\Http\Requests\ForumsRequest;
+use App\Notification;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,7 +65,19 @@ class ForumsController extends Controller
             $forum = Forum::create($data);
             $forum->users()->sync($request->get('user_id'));
         }
+        $this->notifyStore($forum);
         return redirect(action('ForumsController@indexadmin'))->with('success', 'Nouveau forum créé avec succès !');
+    }
+
+    private function notifyStore(Forum $forum){
+        $users = User::all();
+        foreach ($users as $user){
+            Notification::create([
+                'content' => 'Un nouveau forum a été créé : "'.$forum->name.'"',
+                'user_id' => $user->id,
+                'link' => url("forums/".$forum->slug),
+            ]);
+        }
     }
 
     public function edit($slug){

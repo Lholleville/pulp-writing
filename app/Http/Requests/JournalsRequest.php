@@ -13,7 +13,7 @@ class JournalsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class JournalsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'content' => 'required|min:2'
         ];
     }
 }

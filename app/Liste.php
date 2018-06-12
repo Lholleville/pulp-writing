@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Liste extends Model
 {
@@ -46,6 +48,7 @@ class Liste extends Model
     public $dates = ['created_at', 'updated_at'];
 
 
+
     public function users(){
        return $this->belongsToMany('App\User');
     }
@@ -54,39 +57,58 @@ class Liste extends Model
         return $this->HasOne('App\Regle');
     }
 
+    public function getOwnerAttribute(){
+        return User::findOrFail($this->attributes['user_id']);
+    }
+
     public function isEditable(){
+        $return = [];
         switch($this->name){
             case Self::SUBSCRIBERS_NAME :
-                return Self::SUBSCRIBERS_MODIFICTATION;
+                $return[0] = Self::SUBSCRIBERS_MODIFICTATION;
                 break;
             default :
-                return true;
+                $return[0] = true;
         }
+        $return[1] = ($this->owner->id == Auth::user()->id) ? true : false;
+
+        return ($return[0] && $return[1]) ? true : false;
     }
 
     public function isDeletable(){
+        $return = [];
+
         switch($this->type){
             case Self::CUSTOM_USER_ID :
-                return true;
+                $return[0] = true;
                 break;
             case Self::CUSTOM_LECTURE_ID :
-                return true;
+                $return[0] = true;
+            break;
             default :
-                return false;
+                $return[0] = false;
         }
+
+        $return[1] = ($this->owner->id == Auth::user()->id) ? true : false;
+
+        return ($return[0] && $return[1]) ? true : false;
     }
 
     public function isNotifiable(){
+        $return = [];
+
         switch($this->type){
             case Self::SUBSCRIBERS_ID :
-                return false;
+                $return[0] = false;
                 break;
             case Self::BLACKLIST_ID :
-                return false;
+                $return[0] = false;
+            break;
             default :
-                return true;
+                $return[0] = true;
         }
+        $return[1] = ($this->owner->id == Auth::user()->id) ? true : false;
+
+        return ($return[0] && $return[1]) ? true : false;
     }
-
-
 }

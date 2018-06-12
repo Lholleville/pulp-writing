@@ -27,7 +27,8 @@ class CommentsRequest extends FormRequest
             'content' => 'required|min:3',
             'user_id' => 'exists:users,id',
             'chapter_id' => 'exists:chapters,id',
-            'article_id' => 'exists:articles,id'
+            'article_id' => 'exists:articles,id',
+            'journal_id' => 'exists:journals,id',
         ];
     }
 }

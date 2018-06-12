@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Collec;
 use App\Genre;
 use App\Http\Requests\CollecsRequest;
+use App\Notification;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -53,8 +54,21 @@ class CollecsController extends Controller
         $data = $request->except(['role_id']);
         $collection = Collec::create($data);
         $collection->users()->sync($request->get('role_id'));
+        $this->notifyStore($collection);
         return redirect(action('CollecsController@index'))->with('success', 'La collection a été crée avec succès.');
     }
+
+    private function notifyStore(Collec $collec){
+        $users = User::all();
+        foreach ($users as $user){
+            Notification::create([
+                'content' => 'Une nouvelle collection a été créée : "'.$collec->name.'"',
+                'user_id' => $user->id,
+                'link' => url("collections/".$collec->slug),
+            ]);
+        }
+    }
+
     public function update(CollecsRequest $request, $slug)
     {
         $collection = Collec::where('slug', $slug)->first();

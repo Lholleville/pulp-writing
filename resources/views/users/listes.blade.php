@@ -2,30 +2,34 @@
     <div class="col-sm-4">
         <h2>
             Listes de contacts
-            @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
-                <span class="pull-right" data-toggle="tooltip" data-placement="top" title="Créer une nouvelle liste de contact">
-                <button type="button" href="" class="btn btn-success" data-toggle="modal" data-target="#form-liste-contact">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </span>
+            @if(!Auth::guest())
+                @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
+                    <span class="pull-right" data-toggle="tooltip" data-placement="top" title="Créer une nouvelle liste de contact">
+                    <button type="button" href="" class="btn btn-success" data-toggle="modal" data-target="#form-liste-contact">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </span>
+                @endif
             @endif
         </h2>
         <div class="list-group">
             @foreach($user->listes as $listuser)
                 <span class="list-group-item" id="{{$listuser->id}}" style="cursor : pointer">
                     {{ $listuser->name }}
-                    @if($listuser->isDeletable())
-                        <span class="pull-right">
-                            <a href="{{ action('ListesController@destroy', $listuser) }}"
-                               class="btn btn-danger"
-                               data-toggle="tooltip"
-                               title = "Supprimer la liste: {{ $listuser->name }}"
-                               data-placement="top"
-                               data-method="delete"
-                               data-confirm = "Voulez vous vraiment supprimer la liste : {{ $listuser->name }} ?">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </span>
+                    @if(!Auth::guest())
+                        @if($listuser->isDeletable())
+                            <span class="pull-right">
+                                <a href="{{ action('ListesController@destroy', $listuser) }}"
+                                   class="btn btn-danger"
+                                   data-toggle="tooltip"
+                                   title = "Supprimer la liste: {{ $listuser->name }}"
+                                   data-placement="top"
+                                   data-method="delete"
+                                   data-confirm = "Voulez vous vraiment supprimer la liste : {{ $listuser->name }} ?">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </span>
+                        @endif
                     @endif
                 </span>
             @endforeach
@@ -38,12 +42,14 @@
             <div class="list_content_hide" id="{{"list_".$listuser->id }}">
                 <h2>
                     {{ $listuser->name }}
-                    @if($listuser->isNotifiable())
-                        <span class="" data-toggle="tooltip" data-placement="top" title="Gérer les options de notification">
-                            <button type="button" href="" class="btn btn-primary" data-toggle="modal" data-target="#notif-liste-contact-{{ $listuser->id }}">
-                                <i class="fas fa-cog"></i>
-                            </button>
-                        </span>
+                    @if(!Auth::guest())
+                        @if($listuser->isNotifiable())
+                            <span class="" data-toggle="tooltip" data-placement="top" title="Gérer les options de notification">
+                                <button type="button" href="" class="btn btn-primary" data-toggle="modal" data-target="#notif-liste-contact-{{ $listuser->id }}">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </span>
+                        @endif
                     @endif
                 </h2>
                 <!-- Modal contact-->
@@ -84,6 +90,12 @@
                                         Un utilisateur crée un topic
                                     </label>
                                 </div>
+                                <div class="form-check">
+                                    {!! Form::checkbox('user_can_see_diary') !!}
+                                    <label for="defaultCheck4" class="form-check-label">
+                                        Les utilisateurs peuvent voir mon journal
+                                    </label>
+                                </div>
 
                             </div>
                             <div class="modal-footer">
@@ -98,23 +110,31 @@
                 <p>
                     {{ $listuser->description }}
                 </p>
-                @if(\Illuminate\Support\Facades\Auth::user()->id == $user->id && $listuser->isEditable())
-                    {!! Form::model($listuser, ['class' => 'form-horizontal', 'url' => action('ListesController@update', $listuser), 'method' => 'PUT']) !!}
-                    <div class="form-group">
-                        {!! Form::select('user_id[]', $users->pluck('name', 'id') , $listuser->users()->pluck('id', 'name'), ['multiple' => true, 'class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
-                    </div>
-                    {!! Form::close() !!}
+                @if(!Auth::guest())
+                    @if(\Illuminate\Support\Facades\Auth::user()->id == $user->id && $listuser->isEditable())
+                        {!! Form::model($listuser, ['class' => 'form-horizontal', 'url' => action('ListesController@update', $listuser), 'method' => 'PUT']) !!}
+                        <div class="form-group">
+                            {!! Form::select('user_id[]', $users->pluck('name', 'id') , $listuser->users()->pluck('id', 'name'), ['multiple' => true, 'class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Envoyer</button>
+                        </div>
+                        {!! Form::close() !!}
+                    @endif
                 @endif
                 <div class="row">
                     @foreach($listuser->users as $membre)
-                        <div class="col-3">
-                            <p>
-                                <a href="{{ action('UsersController@show', $membre->slug) }}"><img class="img-avatar-list" src="{{ url($membre->avatar) }}" alt="Avatar de {{ $membre->name }}">{{ $membre->name }}</a>
-                            </p>
-                        </div>
+                    <div class="col-3">
+                        <p>
+                            <a href="{{ action('UsersController@show', $membre->slug) }}">
+                                <img class="img-avatar-list"
+                                     src="{{ url($membre->avatar) }}"
+                                     alt="Avatar de {{ $membre->name }}"
+                                >
+                                {{ $membre->name }}
+                            </a>
+                        </p>
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -126,30 +146,34 @@
     <div class="col-sm-4">
         <h2>
             Listes de lecture
-            @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
-                <span class="pull-right" data-toggle="tooltip" data-placement="top" title="Créer une nouvelle liste de lecture">
-                    <button type="button" href="" class="btn btn-success" data-toggle="modal" data-target="#form-liste-lecture">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </span>
+            @if(!Auth::guest())
+                @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
+                    <span class="pull-right" data-toggle="tooltip" data-placement="top" title="Créer une nouvelle liste de lecture">
+                        <button type="button" href="" class="btn btn-success" data-toggle="modal" data-target="#form-liste-lecture">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </span>
+                @endif
             @endif
         </h2>
 
         <div class="list-group">
             @foreach($user->listelectures as $list)
                 <span class="list-group-item-lecture" id="{{$list->id}}" style="cursor : pointer">{{ $list->name }}
-                    @if($list->isDeletable())
-                        <span class="pull-right">
-                            <a href="{{ action('ListeslectureController@destroy', $list) }}"
-                               class="btn btn-danger"
-                               data-toggle="tooltip"
-                               title = "Supprimer la liste: {{ $list->name }}"
-                               data-placement="top"
-                               data-method="delete"
-                               data-confirm = "Voulez vous vraiment supprimer la liste : {{ $list->name }} ?">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </span>
+                    @if(!Auth::guest())
+                        @if($list->isDeletable())
+                            <span class="pull-right">
+                                <a href="{{ action('ListeslectureController@destroy', $list) }}"
+                                   class="btn btn-danger"
+                                   data-toggle="tooltip"
+                                   title = "Supprimer la liste: {{ $list->name }}"
+                                   data-placement="top"
+                                   data-method="delete"
+                                   data-confirm = "Voulez vous vraiment supprimer la liste : {{ $list->name }} ?">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </span>
+                        @endif
                     @endif
                     </span>
             @endforeach
@@ -160,12 +184,14 @@
             <div class="list_content_hide_lecture" id="list_lecture_<?php echo $listlecture->id?>">
                 <h2>
                     {{ $listlecture->name }}
-                    @if($listlecture->isNotifiable())
-                        <span class="" data-toggle="tooltip" data-placement="top" title="Gérer les options de notification">
-                            <button type="button" href="" class="btn btn-primary" data-toggle="modal" data-target="#notif-liste-lecture-{{ $listlecture->id }}">
-                                <i class="fas fa-cog"></i>
-                            </button>
-                        </span>
+                    @if(!Auth::guest())
+                        @if($listlecture->isNotifiable())
+                            <span class="" data-toggle="tooltip" data-placement="top" title="Gérer les options de notification">
+                                <button type="button" href="" class="btn btn-primary" data-toggle="modal" data-target="#notif-liste-lecture-{{ $listlecture->id }}">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </span>
+                        @endif
                     @endif
                 </h2>
                 <!-- Modal lecture-->
@@ -206,15 +232,17 @@
                 <p>
                     {{ $listlecture->description }}
                 </p>
-                @if(\Illuminate\Support\Facades\Auth::user()->id == $user->id && $listlecture->isEditable())
-                    {!! Form::model($listlecture, ['class' => 'form-horizontal', 'url' => action('ListeslectureController@update', $listlecture), 'method' => 'PUT']) !!}
-                    <div class="form-group">
-                        {!! Form::select('book_id[]', $books->pluck('name', 'id') , $listlecture->books()->pluck('id', 'name'), ['multiple' => true, 'class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
-                    </div>
-                    {!! Form::close() !!}
+                @if(!Auth::guest())
+                    @if(\Illuminate\Support\Facades\Auth::user()->id == $user->id && $listlecture->isEditable())
+                        {!! Form::model($listlecture, ['class' => 'form-horizontal', 'url' => action('ListeslectureController@update', $listlecture), 'method' => 'PUT']) !!}
+                        <div class="form-group">
+                            {!! Form::select('book_id[]', $books->pluck('name', 'id') , $listlecture->books()->pluck('id', 'name'), ['multiple' => true, 'class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Envoyer</button>
+                        </div>
+                        {!! Form::close() !!}
+                    @endif
                 @endif
                 <div class="row">
                     @foreach($listlecture->books as $book)
