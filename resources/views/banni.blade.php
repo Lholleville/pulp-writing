@@ -9,7 +9,7 @@
         <p>
             Votre Karma est inférieur ou égal à 0, suite à votre comportement néfaste sur le site.
             <br>Vous pouvez toujours faire une réclamation par mail à l'adresse suivante :
-            <a href="">contact@le-coin-des-ecrivains.com</a>
+            <a href="">grimancie@gmail.com</a>
             <br>
             <br>
         </p>

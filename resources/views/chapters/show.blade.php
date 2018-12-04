@@ -36,9 +36,13 @@
         <div class="offset-sm-5 col-sm-2 text-center">
             <h2 id="like">
                 @if(\Illuminate\Support\Facades\Auth::user()->hasLike($chapter))
-                    <a href="{{ url($chapter->id."/dislike") }}" class="pomegranate"><i class="fa fa-heart" data-toggle="tooltip" data-placement="bottom" title="Je n'aime plus ce chapitre !" id="ouilike"></i></a>
+                    <a href="{{ url($chapter->id."/dislike") }}" class="pomegranate">
+                        <i class="fas fa-heart" data-toggle="tooltip" data-placement="bottom" title="Je n'aime plus ce chapitre !" id="ouilike"></i>
+                    </a>
                 @else
-                    <a href="{{ url($chapter->id."/like") }}" class="pomegranate"><i class="fa fa-heart-o" data-toggle="tooltip" data-placement="bottom" title="J'aime ce chapitre !" id="nonlike"></i></a>
+                    <a href="{{ url($chapter->id."/like") }}" class="pomegranate">
+                        <i class="far fa-heart" data-toggle="tooltip" data-placement="bottom" title="J'aime ce chapitre !" id="nonlike"></i>
+                    </a>
                 @endif
             </h2>
         </div>
@@ -89,9 +93,9 @@
             <div class="offset-sm-4 col-sm-2 text-center">
                 <h2 id="like2">
                     @if(\Illuminate\Support\Facades\Auth::user()->hasLike($chapter))
-                        <a href="{{ url($chapter->id."/dislike") }}" class="pomegranate"><i class="fa fa-heart" data-toggle="tooltip" data-placement="bottom" title="Je n'aime plus ce chapitre !" id="ouilike2"></i></a>
+                        <a href="{{ url($chapter->id."/dislike") }}" class="pomegranate"><i class="fas fa-heart" data-toggle="tooltip" data-placement="bottom" title="Je n'aime plus ce chapitre !" id="ouilike2"></i></a>
                     @else
-                        <a href="{{ url($chapter->id."/like") }}" class="pomegranate"><i class="fa fa-heart-o" data-toggle="tooltip" data-placement="bottom" title="J'aime ce chapitre !" id="nonlike2"></i></a>
+                        <a href="{{ url($chapter->id."/like") }}" class="pomegranate"><i class="far fa-heart" data-toggle="tooltip" data-placement="bottom" title="J'aime ce chapitre !" id="nonlike2"></i></a>
                     @endif
                 </h2>
             </div>

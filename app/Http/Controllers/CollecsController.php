@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Collec;
 use App\Genre;
 use App\Http\Requests\CollecsRequest;
+use App\Notification;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,8 @@ class CollecsController extends Controller
     public $list_modo;
 
     public function __construct(){
-        $this->middleware('auth' , ['except' => ['normalShow', 'indexShow']]);
-        $this->middleware('admin' , ['except' => ['normalShow', 'indexShow']]);
+        $this->middleware('auth' , ['except' => ['normalShow', 'indexShow', 'indexbibli']]);
+        $this->middleware('admin' , ['except' => ['normalShow', 'indexShow', 'indexbibli']]);
         $this->list_modo = User::where('role_id', 2)
                            ->orWhere('role_id', 3)
                            ->pluck('name', 'id');
@@ -25,6 +26,11 @@ class CollecsController extends Controller
        //$user_collec = DB::table('collec_user')->where()
         $collections = Collec::all();
         return view('admin.collections.index', compact('collections'));
+    }
+
+    public function indexbibli(){
+        $collections = Collec::all();
+        return view('collections.indexbibli', compact('collections'));
     }
 
     public function show($slug)
@@ -53,8 +59,21 @@ class CollecsController extends Controller
         $data = $request->except(['role_id']);
         $collection = Collec::create($data);
         $collection->users()->sync($request->get('role_id'));
-        return redirect(action('CollecsController@index'))->with('success', 'La collection a été crée avec succès.');
+        $this->notifyStore($collection);
+        return redirect(action('CollecsController@index'))->with('success', 'La collection a été créée avec succès.');
     }
+
+    private function notifyStore(Collec $collec){
+        $users = User::all();
+        foreach ($users as $user){
+            Notification::create([
+                'content' => 'Une nouvelle collection a été créée : "'.$collec->name.'"',
+                'user_id' => $user->id,
+                'link' => url("collections/".$collec->slug),
+            ]);
+        }
+    }
+
     public function update(CollecsRequest $request, $slug)
     {
         $collection = Collec::where('slug', $slug)->first();
@@ -70,6 +89,10 @@ class CollecsController extends Controller
     public function destroy($slug)
     {
         $collection = Collec::where('slug', $slug)->first();
+        foreach($collection->books as $book){
+            $book->update(['collec_id' => 1]);
+            $book->save();
+        }
         $collection->users()->detach();
         $collection->delete();
         return redirect(action('CollecsController@index'))->with('warning', 'La collection a bien été supprimée');

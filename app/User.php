@@ -29,6 +29,12 @@ class User extends Authenticatable
         'id'
     ];
 
+    public function badges()
+    {
+        return $this->belongsToMany("Badge\Badge");
+    }
+
+
     public function roles(){
         return $this->belongsTo('App\Role','role_id');
     }
@@ -63,6 +69,15 @@ class User extends Authenticatable
 
     public function journals(){
         return $this->hasMany('App\Journal');
+    }
+
+    public function notifications(){
+        return $this->hasMany('App\Notification');
+    }
+
+
+    public function getNbUnreadNotificationsAttribute(){
+        return $this->notifications()->where('read', false)->count();
     }
 
     /**
@@ -122,6 +137,11 @@ class User extends Authenticatable
         return $this->attributes['name'];
     }
 
+    public function getUnreadMessageAttribute(){
+        $messages = Message::where('to_id', $this->id)->where('read_at', null)->count();
+        return $messages;
+    }
+
     public function getAvatarAttribute($avatar){
         if($this->attributes['karma'] <= 0){
             return "/img/avatars/banni.jpg";
@@ -169,6 +189,7 @@ class User extends Authenticatable
         }
         return false;
     }
+
 
     public function hasRead($chapter){
         //si le chapitre récupéré correspond à un enregistrement de la table
@@ -372,5 +393,44 @@ class User extends Authenticatable
         return $dtF->diff($dtT)->format($string);
     }
 
+    public function hasLikeComment($comment){
+        foreach($comment->engagements as $e){
+            if($e->users->id == Auth::user()->id && $e->has_like == 1){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public function hasDislikeComment($comment){
+        foreach($comment->engagements as $e){
+            if($e->users->id == Auth::user()->id && $e->has_dislike == 1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getNbViewAttribute(){
+        $books = $this->books;
+        $views = 0;
+        foreach ($books as $book){
+            $views += $book->views;
+        }
+        return $views;
+    }
+
+    public function getNbLikeAttribute(){
+        $chapters = Chapter::where("user_id", $this->id)->get();
+        if($chapters->isEmpty()){
+            return 0;
+        }
+        $count = 0;
+        foreach ($chapters as $chapter){
+            if($chapter->like > 0){
+                $count += $chapter->like;
+            }
+        }
+        return $count;
+    }
 }

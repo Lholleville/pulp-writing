@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <h2>Site</h2>
+            <h2>Composant du site</h2>
             <ul>
                 <li><a href="{{action('GenresController@index')}}">Genres</a></li>
                 <li><a href="{{action('StatutsController@index')}}">Statuts</a></li>
@@ -33,6 +33,13 @@
             <ul>
                 <li><a href="{{action('SignalsController@index')}}">Signalement</a></li>
                 <li><a href="{{action('UsersController@index')}}">Membres</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <h2>Configuration site</h2>
+            <ul>
+                <li><a href="{{action('ConfigurationsController@index')}}">Paramètres de développement</a></li>
+                <li><a href="{{action('ConfigurationsController@indexkeys')}}">Clefs</a></li>
             </ul>
         </div>
     </div>

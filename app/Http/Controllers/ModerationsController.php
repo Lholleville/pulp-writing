@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Collec;
+use App\Notification;
 use App\Signal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,13 +30,34 @@ class ModerationsController extends Controller
     public function update($slug, Request $request){
         $book = Book::where('slug', $slug)->first();
         $book->update($request->only(['collec_id']));
+        $collection = Collec::findOrFail($request->only(['collec_id']))->first();
+        $content = "Votre oeuvre ".$book->name." a été déplacée dans la collection ".$collection->name;
+        $link = url("collections/".$collection->slug);
+
+        Notification::create([
+            'content' => $content,
+            'user_id' => $book->users->id,
+            'link' => $link,
+        ]);
+
         return redirect()->back()->with('success', 'Le texte '.$book->name.' a été déplacé avec succès.');
     }
 
     public function reemigrate($slug){
         $book = Book::where('slug', $slug)->first();
+        $collection = $book->collections;
         $collection0 = Collec::where('primary', 1)->first();
         $book->update(['collec_id' => $collection0->id]);
+
+        $content = "Votre oeuvre ".$book->name." a été retirée de la collection ".$collection->name;
+        $link = url("collections/".$collection0->slug);
+
+        Notification::create([
+            'content' => $content,
+            'user_id' => $book->users->id,
+            'link' => $link,
+        ]);
+
         return redirect()->back()->with('success', 'Le texte '.$book->name.' a été déplacé avec succès vers la collection '.$collection0->name);
     }
 

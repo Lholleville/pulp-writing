@@ -78,7 +78,8 @@
             if(tag.length > "2"){
                 var lasopt = $('#tags option:last-child').val();
                 lasopt = parseInt(lasopt) + 1;
-                var option = '<option value="'+tag+'">'+tag+'</option>';
+                console.log(lasopt);
+                var option = '<option value="'+tag+'" selected="selected">'+tag+'</option>';
                 var tab = [];
 
 

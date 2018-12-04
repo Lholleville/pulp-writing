@@ -64,6 +64,10 @@ class Kernel extends HttpKernel
         'tags' => \App\Http\Middleware\Tags::class,
         'banni' => \App\Http\Middleware\Banni::class,
         'nonbanni' => \App\Http\Middleware\Nonbanni::class,
+        'key' => \App\Http\Middleware\Key::class,
+        'nonaccess' => \App\Http\Middleware\Nonaccess::class,
+        'confirmed' => \App\Http\Middleware\Confirmed::class,
+        'mailconfirm' => \App\Http\Middleware\Mailconfirm::class,
 
 
     ];

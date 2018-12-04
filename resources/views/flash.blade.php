@@ -9,6 +9,22 @@
     </div>
 @endif
 
+@if(session()->has('warning'))
+    <div class="alert alert-warning">
+        {{
+            session('warning')
+        }}
+    </div>
+@endif
+
+@if(session()->has('danger'))
+    <div class="alert alert-danger">
+        {{
+            session('danger')
+        }}
+    </div>
+@endif
+
 @if(session()->has('success'))
     <div class="alert alert-success">
         {{

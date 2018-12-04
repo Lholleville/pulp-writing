@@ -1,3 +1,75 @@
+@font-face {
+    font-family: 'arcamajora';
+    src: url("../fonts/ArcaMajora3-Heavy.otf");
+}
+
+@font-face {
+    font-family: 'FontAwesome';
+    src: url("../fonts/fa-solid-900.ttf");
+}
+
+*{
+    font-family: arcamajora;
+}
+
+button{
+    font-family: arcamajora !important;
+}
+
+nav, header{
+    font-family: arcamajora;
+    font-weight: bold;
+    /*color : white;*/
+}
+
+header input[type="text"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+}
+
+form input:-webkit-autofill, form input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: black !important;
+}
+
+header input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+
+    -border-radius: 4px;
+    height: 15px;
+    width: 15px;
+    background: transparent;
+    border: 2px solid #ccc;
+    border-radius : 2px;
+}
+
+header input[type="checkbox"]:checked {
+    background: transparent;
+    margin:0px;
+    position: relative;
+}
+
+header input[type="checkbox"]:checked:before{
+
+    font-family: FontAwesome;
+    content: '\f00c';
+    display: block;
+    color: white;
+    font-size: 13px;
+    position: absolute;
+    top : -5px;
+
+}
+
+.img-navbar{
+    border-radius: 60px;
+    /*width : 15%;*/
+    width: 100%;
+}
+
 .circle-red{
     background-color : #c1392d;
     border : 1px solid #91392d;
@@ -65,10 +137,112 @@
 }
 
 .flip-container, .front, .back {
+    /*width: 320px;*/
+    /*height: 546px;*/
+
     width: 320px;
-    height: 546px;
+    min-height : 300px;
+    max-height : 300px;
 }
 
+.flip-container img{
+    min-height : 300px;
+    max-height : 300px;
+}
+
+.back-container{
+    min-height : 390px;
+    max-height : 390px;
+    color : white;
+}
+
+
+
+.back-container p {
+    text-align: justify;
+
+}
+#summary{
+    overflow: hidden;
+    max-height: 130px;
+    padding : 5%;
+
+    display: block;
+    /*margin: 3em auto;*/
+    overflow: hidden;
+    position: relative;
+    table-layout: fixed;
+    height: 700px;
+}
+
+/* Texte défilant */
+
+
+.defile {
+    display:block;
+    -webkit-animation:linear marqueelike 45s infinite ;
+    -moz-animation:linear marqueelike 45s infinite ;
+    -o-animation:linear marqueelike 45s infinite ;
+    -ms-animation:linear marqueelike 45s infinite ;
+    animation:linear marqueelike 45s infinite ;
+    margin-top:-100%;
+    padding:0 5px;
+    text-align:justify;
+    height:25px;
+}
+
+
+.defile:after {
+    content:attr(data-text);
+    position:absolute;
+    white-space:nowrap;
+    padding-top:10px;
+}
+
+@-webkit-keyframes marqueelike {
+    0%, 100% {margin-top:0;}
+    99.99% {margin-top:-100%;}
+}
+@-moz-keyframes marqueelike {
+    0%, 100% {margin-top:0;}
+    99.99% {margin-top:-100%;}
+}
+@-o-keyframes marqueelike {
+    0%, 100% {margin-top:0;}
+    99.99% {margin-top:-100%;}
+}
+@-ms-keyframes marqueelike {
+    0%, 100% {margin-top:0;}
+    99.99% {margin-top:-100%;}
+}
+@keyframes marqueelike {
+    0%, 100% {margin-top:0;}
+    99.99% {margin-top:-100%;}
+}
+
+@media only screen and (max-width: 860px) {
+    .defileParent {
+        display: block;
+        margin: 3em auto;
+        overflow: hidden;
+        position: relative;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .defile {
+        display:block;
+        -webkit-animation:linear marqueelike 15s infinite ;
+        -moz-animation:linear marqueelike 15s infinite ;
+        -o-animation:linear marqueelike 15s infinite ;
+        -ms-animation:linear marqueelike 15s infinite ;
+        animation:linear marqueelike 15s infinite ;
+        margin-top:-100%;
+        padding:0 5px;
+        text-align:left;
+        height:25px;
+    }
+}
 /* flip speed goes here */
 .flipper {
     transition: 0.6s;
@@ -86,15 +260,31 @@
 
 /* front pane, placed above back */
 .front {
-    background-color: #e84c3c;
+    /*background-color: #e84c3c;*/
+    background-color: rgb(0,0,0);
     z-index: 2;
     /* for firefox 31 */
     transform: rotateY(0deg);
 }
+.front-header{
+    /*min-height: 90px;*/
+    /*max-height: 90px;*/
+    transform: rotate(270deg);
+    position : absolute;
+    bottom : -150px;
+    left : -125px;
 
+}
+
+.text-rotate-270{
+    max-width : 300px;
+    min-width : 300px;
+
+}
 /* back, initially hidden pane */
 .back {
-    background-color: #34495e;
+    /*background-color: #34495e;*/
+    background-color: rgba(0,0,0,0.5);
     transform: rotateY(180deg);
 }
 .info-book, .info-general{
@@ -104,12 +294,10 @@
 }
 
 .info-general{
-    color : black;
+    color : white;
+    font-size: 0.8em;
 }
 
-.info-book{
-    color : white;
-}
 
 .brocoli > .no-result{
     display : none;
@@ -390,4 +578,209 @@
 
 .btn i {
     color: white;
+}
+
+.notification{
+    background-color: #ffffff;
+}
+
+/*.notification-container{*/
+    /*max-height: 500px;*/
+    /*padding : 10px;*/
+    /*!*overflow-y: scroll;*!*/
+/*}*/
+
+.notification-unread{
+    background-color: #EFEFEF;
+}
+
+.notification-unread a, .notification a, .notification-unread a:hover, .notification a:hover{
+    color : black;
+    text-decoration: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: dimgrey;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: grey;
+}
+
+
+.parent2 {
+    top:15px;
+    right:15px;
+    position:fixed;
+    display:block;
+    width:100px;
+    height:100px;
+    background-color:transparent;
+    border-radius:50%;
+    z-index:20;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+.test1 {
+    width:60%;
+    height:60%;
+    background-color:dimGray;
+    border-radius:50%;
+    position:absolute;
+    color:white;
+    text-align:center;
+    line-height:70px;
+    top:25%;
+    left:25%;
+    z-index:19;
+    transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+    position:absolute;
+}
+.test2 {
+    width:60%;
+    height:60%;
+    background-color:dimGray;
+    border-radius:50%;
+    position:absolute;
+    color:white;
+    text-align:center;
+    line-height:70px;
+    top:25%;
+    left:25%;
+    z-index:19;
+    transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .2s;
+}
+.test3 {
+    width:60%;
+    height:60%;
+    background-color:dimGray;
+    border-radius:50%;
+    position:absolute;
+    color:white;
+    text-align:center;
+    line-height:70px;
+    top:25%;
+    left:25%;
+    transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .4s;
+}
+.test4 {
+    width:60%;
+    height:60%;
+    background-color:dimGray;
+    border-radius:50%;
+    position:absolute;
+    color:white;
+    text-align:center;
+    line-height:70px;
+    top:25%;
+    left:25%;
+    transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .6s;
+}
+.mask2 {
+    top:15px;
+    right:15px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    position:absolute;
+    z-index:21;
+    color:white;
+    text-align:center;
+    line-height:120px;
+    cursor:pointer;
+    position:fixed;
+}
+
+.counter{
+    position : absolute;
+    left : -35px;
+    z-index :50;
+}
+
+#counter1{
+    top : -10px;
+}
+#counter2{
+    top : 20px
+}
+#counter3{
+    top : 50px;
+}
+
+.navbar-brand{
+    font-size: 40px;
+}
+
+nav a i{
+    margin-top: 10px;
+    font-size: 40px;
+    color : white;
+}
+
+.notif{
+    font-size: 50%;
+    border-radius: 60px;
+    position : absolute;
+    top : 0px;
+}
+
+.navbar-grimancie, .navbar-grimancie:focus{
+    font-family: arcamajora;
+    background-color: transparent;
+    box-shadow: dimgrey;
+    color : white;
+    border:  3px solid white;
+}
+
+.navbar-grimancie::placeholder{
+    color : white;
+}
+
+.empty{
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+@media screen and (min-width: 768px) {
+    #petit-navbar{
+        display : none;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #grand-navbar{
+        display : none;
+    }
+}
+
+#blocklog{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (min-width: 766px){
+    #threetextspresentationmini{
+        display : none;
+    }
+}
+@media screen and (max-width: 767px){
+    #threetextspresentation{
+        display : none;
+    }
 }

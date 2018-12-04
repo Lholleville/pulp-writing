@@ -117,6 +117,25 @@ class Book extends Model
         }
     }
 
+    public function getSummarytruncatedMiniAttribute(){
+        $text = str_replace("  ", " ", $this->attributes['summary']);
+        $string = explode(" ", $text);
+        if(sizeof($string) < 30){
+            return $text;
+        }else{
+            $trimed = "";
+            for ( $wordCounter = 0; $wordCounter <= 30; $wordCounter++ ){
+                $trimed .= $string[$wordCounter];
+                if($wordCounter < 30){
+                    $trimed .= " ";
+                }else{
+                    $trimed .= "...";
+                }
+            }
+            return $trimed;
+        }
+    }
+
 
     public function getParentAttribute(){
         if($this->attributes['parent_id'] != $this->attributes['id']){
@@ -153,6 +172,11 @@ class Book extends Model
     }
 
     public function isInList($list){
-        return ($list->books->contains($this)) ? true : false;
+        if(is_object($list)){
+            if($list->books != null ){
+                return ($list->books->contains($this)) ? true : false;
+            }
+        }
+
     }
 }

@@ -47,7 +47,7 @@ class Collec extends Model
 
     public function getAvatarAttribute($avatar)
     {
-        return ($avatar) ? "/img/collections/{$this->id}{$this->extension}" : "/img/collections/default-collection.jpg";
+        return ($avatar) ? ($this->extension == "png") ? "/img/collections/{$this->id}.{$this->extension}" : "/img/collections/{$this->id}{$this->extension}" : "/img/collections/default-collection.jpg";
     }
 
     public function getPrimaryAttribute($primary){

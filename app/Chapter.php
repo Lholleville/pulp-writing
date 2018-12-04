@@ -133,6 +133,7 @@ class Chapter extends Model
         }
     }
 
+    //User qui ont liké
     public function getLikeAttribute(){
         return $this->users()->where('liked', 1)->count();
     }

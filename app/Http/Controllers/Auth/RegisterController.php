@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Regle;
+use App\Reglelecture;
 use App\User;
 use App\Liste;
 use App\Listelecture;
@@ -33,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
     private $mailer;
 
     /**
@@ -109,24 +111,6 @@ class RegisterController extends Controller
 
         $list->create(
             [
-                'name' => Liste::AMIS_NAME,
-                'description' => Liste::AMIS_DESCRIPTION,
-                'type' => Liste::AMIS_ID,
-                'user_id' => $user->id,
-            ]);
-        $list = Liste::orderBy('id', 'DESC')->first();
-
-        $rule->create([
-            'liste_id' => $list->id
-        ]);
-        $rule = Regle::orderBy('id', 'DESC')->first();
-
-
-        $list->regles()->sync($rule->id);
-
-
-        $list->create(
-            [
                 'name' => Liste::BLACKLIST_NAME,
                 'description' => Liste::BLACKLIST_DESCRIPTION,
                 'type' => Liste::BLACKLIST_ID,
@@ -140,8 +124,6 @@ class RegisterController extends Controller
         ]);
         $rule = Regle::orderBy('id', 'DESC')->first();
 
-
-        $list->regles()->sync($rule->id);
 
 
         $list->create(
@@ -160,7 +142,6 @@ class RegisterController extends Controller
         $rule = Regle::orderBy('id', 'DESC')->first();
 
 
-        $list->regles()->sync($rule->id);
 
 
         $list->create(
@@ -178,7 +159,6 @@ class RegisterController extends Controller
         $rule = Regle::orderBy('id', 'DESC')->first();
 
 
-        $list->regles()->sync($rule->id);
 
 
         $listlecture->create(
@@ -195,7 +175,6 @@ class RegisterController extends Controller
         ]);
         $rule = Reglelecture::orderBy('id', 'DESC')->first();
 
-        $listlecture->reglelectures()->sync($rule->id);
 
     }
 

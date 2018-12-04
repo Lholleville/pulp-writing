@@ -47,7 +47,7 @@
 
                         <select class="form-control" name="role_id" ng-init = "roles={{$roles}}">
                             <option ng-repeat="role in roles" value="@{{ role.id }}" ng-if="role.name == user.role" selected>@{{ role.name }}</option>
-                            <option ng-repeat="role in roles" value="@{{ role.name }}" ng-if="role.name != user.role">@{{ role.name }}</option>
+                            <option ng-repeat="role in roles" value="@{{ role.id }}" ng-if="role.name != user.role">@{{ role.name }}</option>
                         </select>
 
                     <button type="submit" class="btn btn-success">save</button>

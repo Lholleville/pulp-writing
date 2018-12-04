@@ -6,6 +6,8 @@ use App\Book;
 use App\Http\Requests\ListesRequest;
 use App\Liste;
 use App\Listelecture;
+use App\Notification;
+use App\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
@@ -49,7 +51,7 @@ class ListeslectureController extends Controller
         return redirect()->back()->with('warning', 'La liste de lecture a bien été supprimée.');
     }
 
-    public function subscribe($id){
+    public function subscribe($id, Guard $auth){
         $book = Book::findOrFail($id);
         $list = $this->auth->user()->textsliste;
 
@@ -57,9 +59,21 @@ class ListeslectureController extends Controller
             $list->books()->detach($book->id);
         }else{
             $list->books()->attach($book->id);
+            $this->notifuser($auth->user(), $book, $list);
         }
         return redirect()->back();
 
+    }
+
+    private function notifuser(User $user, Book $book, Listelecture $liste){
+
+        $content = $user->name." a ajouté votre oeuvre ".$book->name." à sa liste de lecture : ".$liste->name.".";
+        $link = "";
+        Notification::create([
+            'content' => $content,
+            'user_id' => $book->users->id,
+            'link' => $link,
+        ]);
     }
 
     public function setruleslecture(Request $request, $id){

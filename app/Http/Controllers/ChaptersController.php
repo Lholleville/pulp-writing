@@ -7,8 +7,10 @@ use App\Behaviour\Sluggable;
 use App\Book;
 use App\Chapter;
 use App\Comment;
+use App\Events\TextCreateChapterEvent;
 use App\Http\Requests\ChaptersRequest;
 use App\Note;
+use App\Notification;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +46,8 @@ class ChaptersController extends Controller
         $data['user_id'] = $auth->user()->id;
         $data['order'] = 0;
         $data['words'] = 0;
-        Chapter::create($data);
+        $chapter = Chapter::create($data);
+        event(new TextCreateChapterEvent($auth->user(), $book, $chapter));
         return redirect(action('BooksController@show', $book))->with('success', 'Nouveau chapitre enregistré');
     }
 
@@ -90,6 +93,14 @@ class ChaptersController extends Controller
             DB::table('chapter_user')->where('chapter_id', $id)->where('user_id', $auth->user()->id)->update(['liked' => 1]);
         }
 
+        $content = $auth->user()->name." a aimé votre chapitre ".$chapter->name." de l'oeuvre ".$chapter->books->name;
+        $link = url($chapter->books->collections->slug."/".$chapter->books->slug."/".$chapter->order."/".$chapter->slug);
+
+        Notification::create([
+            'content' => $content,
+            'user_id' => $chapter->books->users->id,
+            'link' => $link,
+        ]);
 
         return back()->with('success', 'Vous avez aimé ce chapitre ! :) ');
 
@@ -116,6 +127,16 @@ class ChaptersController extends Controller
         }else{
             DB::table('chapter_user')->where('chapter_id', $id)->where('user_id', $auth->user()->id)->update(['has_read' => 1]);
         }
+
+        $content = $auth->user()->name." a confirmé avoir lu votre chapitre ".$chapter->name." de l'oeuvre ".$chapter->books->name;
+        $link = url($chapter->books->collections->slug."/".$chapter->books->slug."/".$chapter->order."/".$chapter->slug);
+
+        Notification::create([
+            'content' => $content,
+            'user_id' => $chapter->books->users->id,
+            'link' => $link,
+        ]);
+
         return back()->with('success', 'Vous avez lu ce chapitre ! :) ');
 
     }
